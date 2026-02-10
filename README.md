@@ -51,4 +51,5 @@ MVPリリース時に作っていたいもの
 - 使用するフレームワーク：Ruby on Rails
 - データベース：PostgreSQL
 - デプロイ先：Render
-- 使用予定のライブラリ：Hotwire（Turbo / Stimulus）
+- 使用予定のライブラリ：Hotwire（Turbo / Stimulus）, Faraday
+- 外部API：Annict API（アニメ情報の自動取得に使用）
