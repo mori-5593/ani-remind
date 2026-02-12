@@ -48,7 +48,7 @@ MVPリリース時に作っていたいもの
 ・プロフィール編集機能（アイコン画像等）
 
 ## 使用する技術スタック
-- 使用するフレームワーク：Ruby on Rails
+- 使用するフレームワーク：Ruby on Rails：7.1.x
 - データベース：PostgreSQL
 - デプロイ先：Render
 - 使用予定のライブラリ：Hotwire（Turbo / Stimulus）, Faraday
