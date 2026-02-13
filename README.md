@@ -53,3 +53,6 @@ MVPリリース時に作っていたいもの
 - デプロイ先：Render
 - 使用予定のライブラリ：Hotwire（Turbo / Stimulus）, Faraday
 - 外部API：Annict API（アニメ情報の自動取得に使用）
+
+## 画面遷移図
+Figma：<https://www.figma.com/design/zZ2m4tBGN4Tiiqnz0djq1S/AniRemind?node-id=0-1&t=kaF2rhq4rCHnAGln-1>
