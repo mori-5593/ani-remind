@@ -57,5 +57,6 @@ MVPリリース時に作っていたいもの
 ## 画面遷移図
 Figma：<https://www.figma.com/design/zZ2m4tBGN4Tiiqnz0djq1S/AniRemind?node-id=0-1&t=kaF2rhq4rCHnAGln-1>
 
+
 ## ER図
 <img width="809" height="731" alt="AniRemind drawio" src="https://github.com/user-attachments/assets/ef1feab5-d4ee-4934-a8d1-5f6aec7821d6" />
