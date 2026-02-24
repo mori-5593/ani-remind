@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
+    <%= link_to "AniRemind", root_path, class: "navber-brand fw-bold italic" %>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#headerNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="headerNavbar">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- #ログイン判定 -->
+        <% if logged_in? %>
+          <li class="nav-item">
+          <!-- #部分は新規投稿ページを作成したら編集する -->
+            <%= link_to "新規投稿", "#", class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+          <!-- #部分は投稿一覧ページを作成したら編集する -->
+            <%= link_to "投稿一覧", "#", class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+          <!-- #部分は新規投稿ページを作成したら編集する -->
+            <%= link_to "ログアウト", "/sessions/1", data: { turbo_method: :delete }, class: "nav-link" %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "投稿一覧", "#", class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "新規登録", new_user_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "ログイン", new_session_path, class: "nav-link" %>
+          </li>
+        <% end %>
+      </ul>
+
+      <% if logged_in? %>
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="https://via.placeholder.com/30" class="rounded-circle me-2" alt="User Icon">
+              <span><%= current_user.name %> さん</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><%= link_to "マイページ", "#", class: "dropdown-item" %></li>
+              <li><%= link_to "みた一覧", "#", class: "dropdown-item" %></li>
+              <li><%= link_to "みたい一覧", "#", class: "dropdown-item" %></li>
+            </ul>
+          </li>
+        </ul>
+    <% end %>
+    </div>
+  </div>
+</nav>

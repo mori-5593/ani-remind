@@ -3,7 +3,7 @@
 <p style="color: red"><%= alert %></p>
 <p style="color: green"><%= notice %></p>
 
-<%= form_with scope: :session_path do |form| %>
+<%= form_with scope: :session, url: sessions_path, data: { turbo: false }, local: true do |form| %>
   <div>
     <%= form.label :email_address, "メールアドレス" %>
     <%= form.email_field :email_address, required: true, autofocus: true, value: params[:email_address] %>
