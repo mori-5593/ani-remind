@@ -10,7 +10,7 @@ module AniRemind
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.1
-    config.time_zone = 'Tokyo'
+    config.time_zone = "Tokyo"
     config.i18n.default_locale = :ja
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do

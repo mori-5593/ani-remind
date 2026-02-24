@@ -1,0 +1,23 @@
+<h1>ログイン画面</h1>
+
+<p style="color: red"><%= alert %></p>
+<p style="color: green"><%= notice %></p>
+
+<%= form_with scope: :session_path do |form| %>
+  <div>
+    <%= form.label :email_address, "メールアドレス" %>
+    <%= form.email_field :email_address, required: true, autofocus: true, value: params[:email_address] %>
+  </div>
+
+  <div>
+    <%= form.label :password, "パスワード" %>
+    <%= form.password_field :password, required: true %>
+  </div>
+
+  <div>
+    <%= form.submit "ログイン" %>
+  </div>
+<% end %>
+
+<br>
+<%= link_to "新規登録はこちら", new_user_path %>
