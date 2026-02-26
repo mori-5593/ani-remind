@@ -13,4 +13,14 @@ module ActiveSupport
 
     # Add more helper methods to be used by all tests here...
   end
+
+  def sign_in_as(user)
+    session = user.sessions.create!(
+      user_agent: "TestAgent",
+      ip_address: "127.0.0.1"
+    )
+    cookies.signed[:session_id] = { value: session.id, httponly: true }
+
+    Current.session = session
+  end
 end
