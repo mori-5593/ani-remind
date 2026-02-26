@@ -1,4 +1,10 @@
 class PostsController < ApplicationController
+  included Authentication
+
+  def current_user
+    Current.user
+  end
+  
   def new
     @post = current_user.posts.build
   end
