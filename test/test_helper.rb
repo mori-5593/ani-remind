@@ -23,5 +23,4 @@ module ActiveSupport
 
     Current.session = session
   end
-
 end
