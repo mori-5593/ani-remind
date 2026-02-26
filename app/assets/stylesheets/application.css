@@ -14,3 +14,30 @@
     margin-top: 0;
   }
 }
+
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.star-rating input[type="radio"] {
+  display: none;
+}
+
+/* 星の見た目*/
+.star-rating label {
+  font-size: 2rem;
+  color: #ccc; /*塗られてない星の色*/
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star-rating input[type="radio"]:checked ~ label {
+  color: #ffcc00; /*塗られた星の色*/
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: #ffdd44;
+}

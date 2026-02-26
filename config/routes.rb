@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "posts/new"
+  get "posts/create"
   get "user_sessions/new"
   get "user_sessions/create"
   get "user_sessions/destroy"
@@ -8,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :passwords, param: :token
   resources :users, only: [ :new, :create ]
+  resources :posts, only: [ :new, :create ]
 
   root "user_sessions#new" # ログイン画面（トップページの設定が終わったら編集）
 
