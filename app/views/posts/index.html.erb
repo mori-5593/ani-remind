@@ -2,6 +2,6 @@
 <% @posts.each do |post| %>
   <div>
     <h2><%= post.title %></h2>
-    <p><%= post.status %> | 星評価: <%= post.rating %></p>
+    <p><%= post.status_i18n %> | 星評価: <%= post.rating %></p>
   </div>
 <% end %>
