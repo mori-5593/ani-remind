@@ -1,0 +1,7 @@
+<h1>投稿一覧</h1>
+<% @posts.each do |post| %>
+  <div>
+    <h2><%= post.title %></h2>
+    <p><%= post.status %> | 星評価: <%= post.rating %></p>
+  </div>
+<% end %>
