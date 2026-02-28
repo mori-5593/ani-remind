@@ -1,10 +1,12 @@
 class UserSessionsController < ApplicationController
-  allow_unauthenticated_access only: %i[ new create destroy ] #未ログイン時にアクセス可能
+  allow_unauthenticated_access only: %i[ new create ] #未ログイン時にアクセス可能
   def new
   end
 
   def create
-    if user = login(params[:session][:email_address], params[:session][:password])
+    user = User.authenticate_by(email_address: params[:email_address], password: params[:password])
+    if user
+      start_new_session_for user
       redirect_to root_path, notice: "ログインしました"
     else
       flash.now[:alert] = "メールアドレスまたはパスワードが正しくありません"
@@ -14,6 +16,6 @@ class UserSessionsController < ApplicationController
 
   def destroy
     terminate_session
-    redirect_to login_path, notice: "ログアウトしました", status: :see_other
+    redirect_to root_path, notice: "ログアウトしました"
   end
 end
