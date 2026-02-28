@@ -8,8 +8,8 @@
 
       <div class="flex items-center space-x-6">
         <% if logged_in? %>
-          <%= link_to "新規投稿", "#", class: "text-gray-600 hover:text-gray-900 font-medium" %>
-          <%= link_to "投稿一覧", "#", class: "text-gray-600 hover:text-gray-900 font-medium" %>
+          <%= link_to "新規投稿", new_post_path, class: "text-gray-600 hover:text-gray-900 font-medium" %>
+          <%= link_to "投稿一覧", root_path, class: "text-gray-600 hover:text-gray-900 font-medium" %>
           <%= link_to "ログアウト", logout_path, data: { turbo_method: :delete }, class: "text-gray-600 hover:text-gray-900 font-medium" %>
 
           <div class="relative group"> <button type="button" class="flex items-center space-x-2 border-l pl-6 ml-2 focus:outline-none py-4"> <div class="w-8 h-8 flex items-center justify-center bg-gray-500 text-white rounded-full text-xs">
