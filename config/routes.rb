@@ -1,18 +1,14 @@
 Rails.application.routes.draw do
-  get "posts/new"
-  get "posts/create"
-  get "user_sessions/new"
-  get "user_sessions/create"
-  get "user_sessions/destroy"
+  resources :posts
+
   get "login", to: "user_sessions#new", as: :login
   post "login", to: "user_sessions#create"
   delete "logout", to: "user_sessions#destroy", as: :logout
 
   resources :passwords, param: :token
   resources :users, only: [ :new, :create ]
-  resources :posts, only: [ :new, :create ]
 
-  root "user_sessions#new" # ログイン画面（トップページの設定が終わったら編集）
+  root "posts#index"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

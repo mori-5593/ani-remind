@@ -17,8 +17,3 @@ ja:
     attributes:
       post:
         status: "視聴状況"
-    enums:
-      post:
-        status:
-          watched: "みた"
-          want_to_watch: "みたい"
