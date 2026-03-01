@@ -16,10 +16,11 @@ class UserSessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should login (create session)" do
-    post login_url, params: { session: { email_address: @user.email_address, password: "password" } }
+    post login_url, params: { email_address: @user.email_address, password: "password" }
 
     assert_redirected_to root_url
-    assert_equal @user.id, session[:user_id]
+    follow_redirect!
+    assert_select "a", text: "ログアウト"
   end
 
   test "should logout (destroy session)" do
