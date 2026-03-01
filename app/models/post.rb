@@ -7,9 +7,9 @@ class Post < ApplicationRecord
 
   def status_i18n
     case status
-      when "watched" then "みた"
-      when "want_to_watch" then "みたい"
-      else status
+    when "watched" then "みた"
+    when "want_to_watch" then "みたい"
+    else status
     end
   end
 end

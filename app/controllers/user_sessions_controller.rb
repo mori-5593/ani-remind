@@ -1,5 +1,5 @@
 class UserSessionsController < ApplicationController
-  allow_unauthenticated_access only: %i[ new create ] #未ログイン時にアクセス可能
+  allow_unauthenticated_access only: %i[ new create ] # 未ログイン時にアクセス可能
   def new
   end
 
