@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+.star_rating input:checked ~ label {
+  @apply text-yellow-400;
+}
+
+.star_rating label:hover,
+.star_rating label:hover ~ label {
+  @apply text-yellow-400;
+}

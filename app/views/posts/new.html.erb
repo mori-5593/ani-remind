@@ -1,32 +1,33 @@
-<div class="container mt-4">
-  <h2>アニメを記録する</h2>
+<fieldset class="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">アニメを記録する</h1>
 
-  <%= form_with model: @post, local: true do |form| %>
-    <div class="mb-3">
-      <%= form.label :title, "アニメ題名", class: "form-label" %>
-      <%= form.text_field :title, class: "form-control" %>
+  <%= form_with model: @post, local: true, class: "space-y-6" do |form| %>
+
+    <div>
+      <%= form.label :title, "アニメ題名", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :title, required: true, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :status, "視聴状況", class: "form-label" %>
+    <div >
+      <%= form.label :status, "視聴状況", class: "block text-sm font-medium text-gray-700" %>
       <%= form.select :status, [["みた", "watched"], ["みたい", "want_to_watch"]], {}, class: "form-select" %>
     </div>
 
-    <div class="mb-3">
-      <label class="form-label d-block">評価</label>
-      <div class="star-rating">
+    <fieldset>
+      <legend class="block text-sm font-medium text-gray-700 mb-1">評価</legend>
+      <div class="star_rating flex flex-row-reverse justify-end">
         <% [5, 4, 3, 2, 1].each do |num| %>
-          <%= form.radio_button :rating, num, id: "star#{num}" %>
-          <label for="star<%= num %>">★</label>
+          <%= form.radio_button :rating, num, id: "star#{num}", class: "hidden" %>
+          <%= form.label :rating, "★", for: "star#{num}", class: "text-2xl text-gray-300 cursor-pointer peer-checked:text-yellow-400 hover:text-yellow-400 transition-colors" %>
         <% end %>
       </div>
+    </fieldset>
+
+    <div>
+      <%= form.label :content, "感想", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_area :content, rows: 5, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :content, "感想", class: "form-label" %>
-      <%= form.text_area :content, class: "form-control", rows: 5 %>
-    </div>
-
-    <%= form.submit "投稿する", class: "btn btn-primary" %>
+    <%= form.submit "投稿する", class: "w-full mt-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none transition-colors" %>
   <% end %>
-</div>
+</fieldset>
