@@ -18,6 +18,16 @@ class PostsController < ApplicationController
     end
   end
 
+  def watched
+    @posts = Post.watched
+    render :index #"watched"ようのビューファイルを作る代わりに、indexビューを使い回す
+  end
+
+  def want_to_watched
+    @posts = Post.want_to_watched
+    render :index
+  end
+
   private
 
   def post_params
