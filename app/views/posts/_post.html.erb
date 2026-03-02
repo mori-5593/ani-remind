@@ -1,0 +1,18 @@
+<div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+  <h2 class="text-xl font-bold mb-1"><%= post.title %></h2>
+  <p class="text-sm text-gray-500 mb-3">投稿者：<%= post.user&.name || "名無しさん" %></p>
+
+  <div class="flex items-center gap-2 mb-4 text-sm text-gray-700">
+    <span class="font-medium"><%= post.status_i18n %></span>
+    <% if post.watched? %>
+      <span>|</span>
+      <span><%= render_stars(post.rating) %></span>
+    <% end %>
+  </div>
+
+  <div class="text-gray-600 mb-4 line-clamp-3">
+    <%= post.content %>
+  </div>
+
+  <%= link_to "詳細を見る", post_path(post), class: "text-blue-500 hover:underline text-sm" %>
+</div>

@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  resources :posts
+  resources :posts do
+    collection do
+      get :watched
+      get :want_to_watch
+    end
+  end
 
   get "login", to: "user_sessions#new", as: :login
   post "login", to: "user_sessions#create"

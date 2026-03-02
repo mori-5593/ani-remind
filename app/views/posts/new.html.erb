@@ -10,10 +10,10 @@
 
     <div >
       <%= form.label :status, "視聴状況", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.select :status, [["みた", "watched"], ["みたい", "want_to_watch"]], {}, class: "form-select" %>
+      <%= form.select :status, [["みた", "watched"], ["みたい", "want_to_watch"]], {}, { id: "status-select", class: "form-select" } %>
     </div>
 
-    <fieldset>
+    <fieldset id="rating-field">
       <legend class="block text-sm font-medium text-gray-700 mb-1">評価</legend>
       <div class="star_rating flex flex-row-reverse justify-end">
         <% [5, 4, 3, 2, 1].each do |num| %>
@@ -31,3 +31,28 @@
     <%= form.submit "投稿する", class: "w-full mt-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none transition-colors" %>
   <% end %>
 </fieldset>
+
+<script>
+  document.addEventListener('turbo:load', () => {
+    const statusSelect = document.getElementById('status-select');
+    const ratingField = document.getElementById('rating-field');
+
+    // もしページ上にこのフォームがなかったら何もしない（エラー防止）
+    if (!statusSelect || !ratingField) return;
+
+    const toggleRating = () => {
+      // 選択肢が "watched" なら表示、それ以外なら非表示
+      if (statusSelect.value === 'watched') {
+        ratingField.classList.remove('hidden');
+      } else {
+        ratingField.classList.add('hidden');
+      }
+    };
+
+    // 選択が変わったとき
+    statusSelect.addEventListener('change', toggleRating);
+
+    // ページを読み込んだとき（初期表示）
+    toggleRating();
+  });
+</script>
