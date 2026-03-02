@@ -19,6 +19,10 @@ class PostsController < ApplicationController
     end
   end
 
+  def show
+    @post = Post.find(params[:id])
+  end
+
   def watched
     # ステータスが「見た（０）」の投稿だけ取得
     @posts = current_user.posts.watched
