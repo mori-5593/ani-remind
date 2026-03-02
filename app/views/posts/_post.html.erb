@@ -14,5 +14,7 @@
     <%= post.content %>
   </div>
 
-  <%= link_to "詳細を見る", post_path(post), class: "text-blue-500 hover:underline text-sm" %>
+  <% unless current_page?(post_path(post)) %>
+    <%= link_to "詳細を見る", post_path(post), class: "text-blue-500 hover:underline text-sm" %>
+  <% end %>
 </div>
