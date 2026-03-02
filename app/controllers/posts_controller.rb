@@ -19,12 +19,14 @@ class PostsController < ApplicationController
   end
 
   def watched
-    @posts = Post.watched
-    render :index #"watched"ようのビューファイルを作る代わりに、indexビューを使い回す
+    # ステータスが「見た（０）」の投稿だけ取得
+    @posts = current_user.posts.watched
+    render :index
   end
 
-  def want_to_watched
-    @posts = Post.want_to_watched
+  def want_to_watch
+    # ステータスが「見たい（１）」の投稿だけ取得
+    @posts = current_user.posts.want_to_watch
     render :index
   end
 
