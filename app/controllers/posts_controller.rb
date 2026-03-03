@@ -56,6 +56,13 @@ class PostsController < ApplicationController
     render :index
   end
 
+  def search
+    # サービスオブジェクトを使って検索結果を取得
+    results = AnnictApiClient.new.search_works(params[:keyword])
+    # 結果をJSON形式でブラウザに返す
+    render json: results
+  end
+
   private
 
   def post_params
