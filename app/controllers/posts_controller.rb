@@ -23,6 +23,19 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
   end
 
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    if @post.update(post_params)
+      redirect_to @post, notice: "投稿を更新しました"
+    else
+      render :edit, status: unprocessable_entity
+    end
+  end
+
   def watched
     # ステータスが「見た（０）」の投稿だけ取得
     @posts = current_user.posts.watched
