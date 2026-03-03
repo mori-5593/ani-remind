@@ -3,8 +3,9 @@
   <%= form_with model: @post, local: true, class: "space-y-6" do |form| %>
 
     <div>
-      <%= form.label :title, "アニメ題名", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_field :title, required: true, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
+      <%= form.label :title, "アニメ題名", for: "title-search", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :title, id: "title-search", required: true, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
+      <div id="search-results" class="mt-2 border rounded shadow-sm hidden"></div>
     </div>
 
     <div >
@@ -33,25 +34,50 @@
 
 <script>
   document.addEventListener('turbo:load', () => {
+    // 1. 視聴状況の切り替えロジック
     const statusSelect = document.getElementById('status-select');
     const ratingField = document.getElementById('rating-field');
 
-    // もしページ上にこのフォームがなかったら何もしない（エラー防止）
-    if (!statusSelect || !ratingField) return;
+    if (statusSelect && ratingField) {
+      const toggleRating = () => {
+        if (statusSelect.value === 'watched') {
+          ratingField.classList.remove('hidden');
+        } else {
+          ratingField.classList.add('hidden');
+        }
+      };
+      statusSelect.addEventListener('change', toggleRating);
+      toggleRating();
+    }
 
-    const toggleRating = () => {
-      // 選択肢が "watched" なら表示、それ以外なら非表示
-      if (statusSelect.value === 'watched') {
-        ratingField.classList.remove('hidden');
-      } else {
-        ratingField.classList.add('hidden');
-      }
-    };
+    // 2. Annict API 検索ロジック
+    const searchInput = document.getElementById('title-search');
+    const resultsDiv = document.getElementById('search-results');
 
-    // 選択が変わったとき
-    statusSelect.addEventListener('change', toggleRating);
+    if (searchInput && resultsDiv) {
+      searchInput.addEventListener('input', async (e) => {
+        const keyword = e.target.value;
+        if (keyword.length < 2) {
+          resultsDiv.classList.add('hidden');
+          return;
+        }
 
-    // ページを読み込んだとき（初期表示）
-    toggleRating();
+        const response = await fetch(`/posts/search?keyword=${encodeURIComponent(keyword)}`);
+        const works = await response.json();
+
+        resultsDiv.innerHTML = works.map(work => `
+          <div class="p-2 border-b cursor-pointer hover:bg-gray-100" onclick="selectWork('${work.title}')">
+            ${work.title}
+          </div>
+        `).join('');
+        resultsDiv.classList.remove('hidden');
+      });
+    }
   });
+
+  // 選択したタイトルをフォームに入れる関数
+  function selectWork(title) {
+    document.getElementById('title-search').value = title;
+    document.getElementById('search-results').classList.add('hidden');
+  }
 </script>

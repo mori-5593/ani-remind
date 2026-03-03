@@ -1,5 +1,5 @@
 class AnnictApiClient
-  BASE_URL = 'https//api.annict.com'
+  BASE_URL = 'https://api.annict.com'
 
   def initialize
     @conn = Faraday.new(url: BASE_URL)
