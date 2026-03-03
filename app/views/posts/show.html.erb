@@ -4,7 +4,9 @@
     <%= link_to "一覧に戻る", posts_path, class: "text-gray-600 hover:text-gray-900 text-sm" %>
   </div>
 
-  <%= render 'post', post: @post %>
+  <div class="max-w-4xl mx-auto">
+    <%= render @post, is_detail: true %>
+  </div>
 
   <!-- 投稿者とログイン中のユーザーが一致する時だけ表示 -->
   <% if @post.user_id == current_user.id %>
