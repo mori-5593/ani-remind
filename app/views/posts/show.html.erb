@@ -8,8 +8,9 @@
 
   <!-- 投稿者とログイン中のユーザーが一致する時だけ表示 -->
   <% if @post.user_id == current_user.id %>
-  <div class="mt-6 flex gap-4">
-    <%= link_to "編集する", edit_post_path(@post), class: "bg-yellow-500 text-white px-4 py-2 rounded-md hover: bg-yellow-600 transition-colors" %>
-    <%= button_to "削除する", posts_path(@post), method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors" %>
-  </div>
+    <div class="mt-6 flex gap-4">
+      <%= link_to "編集する", edit_post_path(@post), class: "bg-yellow-500 text-white px-4 py-2 rounded-md hover: bg-yellow-600 transition-colors" %>
+      <%= button_to "削除する", posts_path(@post), method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors" %>
+    </div>
+  <% end %>
 </div>
