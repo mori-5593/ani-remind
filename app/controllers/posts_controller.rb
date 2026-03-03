@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   skip_before_action :require_authentication, only: [ :index ] # 投稿一覧画面は誰でも見れるようにする
+  before_action :ensure_current_user, only: [:edit, :update]
 
   def index
     @posts = Post.all.order(created_at: :desc)
@@ -54,5 +55,12 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:title, :content, :rating, :annict_id, :image_url, :status)
+  end
+
+  def ensure_current_user
+    @post = Post.find(params[:id])
+    unless @post.user_id == current_user.id
+      redirect_to posts_path, alert: "他人の投稿は編集できません"
+    end
   end
 end
