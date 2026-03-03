@@ -6,7 +6,7 @@ class Post < ApplicationRecord
   enum :status, { watched: 0, want_to_watch: 1 } # watched: みた, wat_to_watch: みたい
 
   def self.ransackable_attributes(auth_object = nil)
-    ["annict_id", "content", "created_at", "id", "image_url", "rating", "status", "title", "updated_at", "user_id"]
+    [ "annict_id", "content", "created_at", "id", "image_url", "rating", "status", "title", "updated_at", "user_id" ]
   end
 
   def status_i18n
