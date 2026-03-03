@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   skip_before_action :require_authentication, only: [ :index ] # 投稿一覧画面は誰でも見れるようにする
-  before_action :ensure_current_user, only: [ :edit, :update ]
+  before_action :ensure_current_user, only: [ :edit, :update, :destroy ]
 
   def index
     @posts = Post.all.order(created_at: :desc)
@@ -35,6 +35,11 @@ class PostsController < ApplicationController
     else
       render :edit, status: unprocessable_entity
     end
+  end
+
+  def destroy
+    @post.destroy!
+    redirect_to root_path, notice: "投稿を削除しました"
   end
 
   def watched
