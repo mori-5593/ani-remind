@@ -16,6 +16,7 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to root_path, notice: "アニメを記録しました"
     else
+      puts @post.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -38,8 +39,9 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @post = Post.find(params[:id])
     @post.destroy!
-    redirect_to root_path, notice: "投稿を削除しました"
+    redirect_to posts_path, notice: "投稿を削除しました"
   end
 
   def watched

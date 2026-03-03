@@ -8,6 +8,10 @@
       <div id="search-results" class="mt-2 border rounded shadow-sm hidden"></div>
     </div>
 
+    <div>
+      <%= form.hidden_field :image_url, id: "hidden-image-url" %>
+    </div>
+
     <div >
       <%= form.label :status, "視聴状況", class: "block text-sm font-medium text-gray-700" %>
       <%= form.select :status, [["みた", "watched"], ["みたい", "want_to_watch"]], {}, { id: "status-select", class: "form-select" } %>
@@ -33,51 +37,56 @@
 </fieldset>
 
 <script>
+  window.debounceTimer = window.debounceTimer || null;
+
   document.addEventListener('turbo:load', () => {
-    // 1. 視聴状況の切り替えロジック
-    const statusSelect = document.getElementById('status-select');
-    const ratingField = document.getElementById('rating-field');
-
-    if (statusSelect && ratingField) {
-      const toggleRating = () => {
-        if (statusSelect.value === 'watched') {
-          ratingField.classList.remove('hidden');
-        } else {
-          ratingField.classList.add('hidden');
-        }
-      };
-      statusSelect.addEventListener('change', toggleRating);
-      toggleRating();
-    }
-
-    // 2. Annict API 検索ロジック
     const searchInput = document.getElementById('title-search');
     const resultsDiv = document.getElementById('search-results');
 
     if (searchInput && resultsDiv) {
-      searchInput.addEventListener('input', async (e) => {
-        const keyword = e.target.value;
-        if (keyword.length < 2) {
-          resultsDiv.classList.add('hidden');
-          return;
-        }
-
-        const response = await fetch(`/posts/search?keyword=${encodeURIComponent(keyword)}`);
-        const works = await response.json();
-
-        resultsDiv.innerHTML = works.map(work => `
-          <div class="p-2 border-b cursor-pointer hover:bg-gray-100" onclick="selectWork('${work.title}')">
-            ${work.title}
-          </div>
-        `).join('');
-        resultsDiv.classList.remove('hidden');
-      });
+      searchInput.removeEventListener('input', handleSearch);
+      searchInput.addEventListener('input', handleSearch);
     }
   });
 
-  // 選択したタイトルをフォームに入れる関数
-  function selectWork(title) {
+  function handleSearch(e) {
+    if (window.debounceTimer) clearTimeout(window.debounceTimer);
+    const keyword = e.target.value;
+    const resultsDiv = document.getElementById('search-results');
+
+    if (keyword.length < 2) {
+      resultsDiv.classList.add('hidden');
+      return;
+    }
+
+    window.debounceTimer = setTimeout(async () => {
+      try {
+        const response = await fetch(`/posts/search?keyword=${encodeURIComponent(keyword)}`);
+        const works = await response.json();
+        if (Array.isArray(works)) {
+          resultsDiv.innerHTML = works.map(work => {
+            const imageUrl = work.images?.recommended_url || '';
+            const imgTag = imageUrl ? `<img src="${imageUrl}" class="w-10 h-10 object-cover mr-2 rounded">` : '';
+
+            return `
+              <div class="p-2 border-b cursor-pointer hover:bg-gray-100 flex items-center" onclick="selectWork('${work.title.replace(/'/g, "\\'")}', '${imageUrl}')">
+                ${imgTag}
+                <span>${work.title}</span>
+              </div>
+            `;
+          }).join('');
+          resultsDiv.classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error("検索エラー:", err);
+      }
+    }, 300);
+  }
+
+  function selectWork(title, imageUrl) {
     document.getElementById('title-search').value = title;
+    const hiddenInput = document.getElementById('hidden-image-url');
+    if (hiddenInput) hiddenInput.value = imageUrl;
     document.getElementById('search-results').classList.add('hidden');
   }
 </script>

@@ -1,6 +1,11 @@
 <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-  <h2 class="text-xl font-bold mb-1"><%= post.title %></h2>
-  <p class="text-sm text-gray-500 mb-3">投稿者：<%= post.user&.name || "名無しさん" %></p>
+  <h2 class="text-xl font-bold mb-2"><%= post.title %></h2>
+  <% if post.image_url.present? %>
+    <img src="<%= post.image_url %>" alt="<%= post.title %>" class="w-full h-40 object-cover">
+  <% else %>
+    <div class="w-full h-40 bg-gray-200 flex items-center justify-center">No Image</div>
+  <% end %>
+  <p class="text-sm text-gray-500 mb-3 mt-1">投稿者：<%= post.user&.name || "名無しさん" %></p>
 
   <div class="flex items-center gap-2 mb-4 text-sm text-gray-700">
     <span class="font-medium"><%= post.status_i18n %></span>
