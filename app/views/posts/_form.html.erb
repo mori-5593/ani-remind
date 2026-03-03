@@ -3,8 +3,13 @@
   <%= form_with model: @post, local: true, class: "space-y-6" do |form| %>
 
     <div>
-      <%= form.label :title, "アニメ題名", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_field :title, required: true, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
+      <%= form.label :title, "アニメ題名", for: "title-search", class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :title, id: "title-search", required: true, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
+      <div id="search-results" class="mt-2 border rounded shadow-sm hidden"></div>
+    </div>
+
+    <div>
+      <%= form.hidden_field :image_url, id: "hidden-image-url" %>
     </div>
 
     <div >
@@ -32,26 +37,56 @@
 </fieldset>
 
 <script>
+  window.debounceTimer = window.debounceTimer || null;
+
   document.addEventListener('turbo:load', () => {
-    const statusSelect = document.getElementById('status-select');
-    const ratingField = document.getElementById('rating-field');
+    const searchInput = document.getElementById('title-search');
+    const resultsDiv = document.getElementById('search-results');
 
-    // もしページ上にこのフォームがなかったら何もしない（エラー防止）
-    if (!statusSelect || !ratingField) return;
-
-    const toggleRating = () => {
-      // 選択肢が "watched" なら表示、それ以外なら非表示
-      if (statusSelect.value === 'watched') {
-        ratingField.classList.remove('hidden');
-      } else {
-        ratingField.classList.add('hidden');
-      }
-    };
-
-    // 選択が変わったとき
-    statusSelect.addEventListener('change', toggleRating);
-
-    // ページを読み込んだとき（初期表示）
-    toggleRating();
+    if (searchInput && resultsDiv) {
+      searchInput.removeEventListener('input', handleSearch);
+      searchInput.addEventListener('input', handleSearch);
+    }
   });
+
+  function handleSearch(e) {
+    if (window.debounceTimer) clearTimeout(window.debounceTimer);
+    const keyword = e.target.value;
+    const resultsDiv = document.getElementById('search-results');
+
+    if (keyword.length < 2) {
+      resultsDiv.classList.add('hidden');
+      return;
+    }
+
+    window.debounceTimer = setTimeout(async () => {
+      try {
+        const response = await fetch(`/posts/search?keyword=${encodeURIComponent(keyword)}`);
+        const works = await response.json();
+        if (Array.isArray(works)) {
+          resultsDiv.innerHTML = works.map(work => {
+            const imageUrl = work.images?.recommended_url || '';
+            const imgTag = imageUrl ? `<img src="${imageUrl}" class="w-10 h-10 object-cover mr-2 rounded">` : '';
+
+            return `
+              <div class="p-2 border-b cursor-pointer hover:bg-gray-100 flex items-center" onclick="selectWork('${work.title.replace(/'/g, "\\'")}', '${imageUrl}')">
+                ${imgTag}
+                <span>${work.title}</span>
+              </div>
+            `;
+          }).join('');
+          resultsDiv.classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error("検索エラー:", err);
+      }
+    }, 300);
+  }
+
+  function selectWork(title, imageUrl) {
+    document.getElementById('title-search').value = title;
+    const hiddenInput = document.getElementById('hidden-image-url');
+    if (hiddenInput) hiddenInput.value = imageUrl;
+    document.getElementById('search-results').classList.add('hidden');
+  }
 </script>

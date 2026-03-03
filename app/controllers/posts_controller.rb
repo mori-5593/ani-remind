@@ -16,6 +16,7 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to root_path, notice: "アニメを記録しました"
     else
+      puts @post.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -38,8 +39,9 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @post = Post.find(params[:id])
     @post.destroy!
-    redirect_to root_path, notice: "投稿を削除しました"
+    redirect_to posts_path, notice: "投稿を削除しました"
   end
 
   def watched
@@ -54,6 +56,13 @@ class PostsController < ApplicationController
     @posts = current_user.posts.want_to_watch
     @page_title = "みたい一覧"
     render :index
+  end
+
+  def search
+    # サービスオブジェクトを使って検索結果を取得
+    results = AnnictApiClient.new.search_works(params[:keyword])
+    # 結果をJSON形式でブラウザに返す
+    render json: results
   end
 
   private
