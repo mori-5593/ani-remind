@@ -43,6 +43,8 @@ gem "image_processing", "~> 1.2"
 gem "rails-i18n"
 gem "enum_help"
 gem "tailwindcss-rails"
+gem "faraday"
+gem "dotenv-rails", group: [:development, :test] #APIキーを隠すためのgem
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
