@@ -1,5 +1,16 @@
 <div class="container mx-auto px-4 py-8">
-  <h1 class="text-2xl font-bold mb-6"><%= @page_title %></h1>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold mb-6"><%= @page_title %></h1>
+    <div class="mb-6 p-4 bg-gray-50 rounded shadow-sm">
+      <%= search_form_for @q do |form| %>
+        <div class="flex gap-2">
+          <%= form.search_field :title_cont, placeholder: "タイトルで検索", class: "border rounded px-2 py-1" %>
+          <%= form.submit "検索", class: "bg-indigo-600 text-white px-4 py-1 rounded" %>
+          <%= link_to "クリア", posts_path, class: "bg-gray-400 text-white px-4 py-1 rounded" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
   <% if @posts.any? %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
