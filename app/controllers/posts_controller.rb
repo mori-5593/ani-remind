@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   skip_before_action :require_authentication, only: [ :index ] # 投稿一覧画面は誰でも見れるようにする
-  before_action :ensure_current_user, only: [:edit, :update]
+  before_action :ensure_current_user, only: [ :edit, :update ]
 
   def index
     @posts = Post.all.order(created_at: :desc)
