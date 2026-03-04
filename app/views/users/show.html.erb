@@ -1,0 +1,44 @@
+<h1 class="text-2xl font-bold text-center my-8"><%= @user.name || "名無しさん" %>のプロフィール</h1>
+
+<div id="posts-container" class="max-w-5xl mx-auto px-4">
+  <h2 class="text-lg font-semibold md-4 text-gray-700">投稿一覧</h2>
+
+  <% if @posts.any? %>
+    <% @posts.each do |post| %>
+      <div class="flex bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-3 h-32">
+
+        <div class="w-1/4 h-32 bg-gray-100 flex-shrink-0">
+          <% if post.image_url.present? %>
+            <img src="<%= post.image_url %>" class="w-full h-full object-cover">
+          <% else %>
+            <div class="flex items-center justify-center w-full h-full text-xs text-gray-400 font-medium">No Image</div>
+          <% end %>
+        </div>
+
+        <div class="w-3/4 p-3 flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <%= link_to post_path(post), class: "truncate mr-2 hover:text-blue-600 transition" do %>
+                <h2 class="text-base font-bold text-gray-800"><%= post.title %></h2>
+              <% end %>
+
+              <div class="flex items-center gap-2 text-xs text-gray-700 flex-shrink-0">
+                <span class="font-medium bg-gray-100 px-2 py-0.5 rounded"><%= post.status_i18n %></span>
+                <% if post.watched? %>
+                  <span>|</span>
+                  <span class="text-yellow-500"><%= render_stars(post.rating) %></span>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="text-gray-600 line-clamp-2 text-sm mr-8">
+              <%= post.content %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p>まだ投稿はありません</p>
+  <% end %>
+</div>
