@@ -7,7 +7,7 @@
     <% if post.image_url.present? %>
       <img src="<%= post.image_url %>" class="<%= image_class %>">
     <% else %>
-      <div class="<%= is_detail ? 'h-64' : 'h-40' %> bg-gray-200 flex items-center justify-center">画像なし</div>
+      <div class="<%= is_detail ? 'h-64' : 'h-40' %> bg-gray-200 flex items-center justify-center">No Image</div>
     <% end %>
     <p class="text-sm text-gray-500 mb-3 mt-1">投稿者：<%= post.user&.name || "名無しさん" %></p>
 
