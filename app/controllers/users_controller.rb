@@ -1,6 +1,7 @@
 # 新規登録
 class UsersController < ApplicationController
   allow_unauthenticated_access only: %i[ new create]
+  before_action :authenticate_user!
 
   def new
     @user = User.new
@@ -13,6 +14,17 @@ class UsersController < ApplicationController
       redirect_to root_path, notice: "ユーザー登録が完了しました"
     else
       render :new, status: :unprocessable_entity
+    end
+
+    def show
+      @user = current_user
+      @posts = @user.posts.order(created_at: :desc)
+    end
+
+    def edit
+    end
+
+    def update
     end
   end
 
