@@ -1,4 +1,23 @@
-<h1 class="text-2xl font-bold text-center my-8"><%= @user.name || "名無しさん" %>のプロフィール</h1>
+<h1 class="text-2xl font-bold text-center my-8"><%= @user.name || "名無しさん" %>のマイページ</h1>
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-4">
+        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 text-2xl font-bold">
+          <%= @user.name %>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-gray-800"><%= @user.name || "名無しさん" %></h1>
+          <p class="bor-t border-gray-100 text-gray-600"><%= @user.respond_to?(:introduction) && @user.introduction.present? ? @user.introduction : "自己紹介はまだありません" %></p>
+        </div>
+      </div>
+
+      <% if @user == current_user %>
+        <%= link_to "プロフィール編集", edit_user_path(@user), class: "px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-md transition" %>
+      <% end %>
+    </div>
+  </div>
+</div>
 
 <div id="posts-container" class="max-w-5xl mx-auto px-4">
   <h2 class="text-lg font-semibold md-4 text-gray-700">投稿一覧</h2>
@@ -42,3 +61,4 @@
     <p>まだ投稿はありません</p>
   <% end %>
 </div>
+
