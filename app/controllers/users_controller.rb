@@ -19,7 +19,15 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts.order(created_at: :desc)
+    base_posts = @suer.posts
+    scoped_posts = case params[:status]
+    when "watched" then base_posts.watched
+    when "want_to_watch" then base_posts.want_to_watch
+    else base_posts
+    end
+
+    @q = scoped_posts.ransack(params[:q])
+    @posts = @q.result.order(created_at: :desc)
   end
 
   def edit
