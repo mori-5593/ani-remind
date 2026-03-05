@@ -8,7 +8,7 @@
         </div>
         <div>
           <h1 class="text-xl font-bold text-gray-800"><%= @user.name || "名無しさん" %></h1>
-          <p class="bor-t border-gray-100 text-gray-600"><%= @user.respond_to?(:introduction) && @user.introduction.present? ? @user.introduction : "自己紹介はまだありません" %></p>
+          <p class="bor-t border-gray-100 text-gray-600"><%= @user.introduction && @user.introduction.present? ? @user.introduction : "自己紹介はまだありません" %></p>
         </div>
       </div>
 
