@@ -1,6 +1,7 @@
 # 新規登録
 class UsersController < ApplicationController
   allow_unauthenticated_access only: %i[ new create]
+  before_action :require_authentication
 
   def new
     @user = User.new
@@ -14,6 +15,17 @@ class UsersController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
+    @posts = @user.posts.order(created_at: :desc)
+  end
+
+  def edit
+  end
+
+  def update
   end
 
   private

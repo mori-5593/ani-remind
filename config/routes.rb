@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   delete "logout", to: "user_sessions#destroy", as: :logout
 
   resources :passwords, param: :token
-  resources :users, only: [ :new, :create ]
+  resources :users, only: [ :new, :create, :show, :edit, :update ]
 
   root "posts#index"
 
