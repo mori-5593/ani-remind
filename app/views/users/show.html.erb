@@ -20,7 +20,11 @@
 </div>
 
 <div id="posts-container" class="max-w-5xl mx-auto px-4">
-  <h2 class="text-lg font-semibold md-4 text-gray-700">投稿一覧</h2>
+  <div class="flex soace-1 border-b border-gray-200 mb-6">
+    <%= link_to "全て", user_path(@user), class: "px-4 py-2 text-lg font-semibold #{params[:status].nil? ? 'border-b-2 border-orange-500 text-orange-500' : 'text-gray-500 hover:text-orange-500'}" %>
+    <%= link_to "みた", user_path(@user, status: 'watched'), class: "px-4 py-2 text-lg font-semibold #{params[:status] == 'watched' ? 'border-b-2 border-orange-500 text-orange-500' : 'text-gray-500 hover:text-orange-500'}" %>
+    <%= link_to "みたい", user_path(@user, status: 'want_to_watch'), class: "px-4 py-2 text-lg font-semibold #{params[:status] == 'want_to_watch' ? 'border-b-2 border-orange-500 text-orange-600' : 'text-gray-500 hover:text-orange-500'}" %>
+  </div>
 
   <% if @posts.any? %>
     <% @posts.each do |post| %>
