@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    base_posts = @suer.posts
+    base_posts = @user.posts
     scoped_posts = case params[:status]
     when "watched" then base_posts.watched
     when "want_to_watch" then base_posts.want_to_watch
