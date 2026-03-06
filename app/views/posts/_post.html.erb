@@ -1,5 +1,8 @@
 <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-  <h2 class="text-xl font-bold mb-2"><%= post.title %></h2>
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl font-bold mb-2"><%= post.title %></h2>
+    <%= render_action_button(post) %>
+  </div>
   <% is_detail = local_assigns.fetch(:is_detail, false) %>
   <% image_class = is_detail ? "w-full max-h-96 object-contain" : "w-full h-40 object-cover" %>
 

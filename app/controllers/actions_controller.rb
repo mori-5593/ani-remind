@@ -1,5 +1,5 @@
 class ActionsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   # 「みたい」に追加
   def create
@@ -27,6 +27,6 @@ class ActionsController < ApplicationController
   private
 
   def action_params
-    params.require(:action).permit(:annict_id, :action_type)
+    params.require(:my_action).permit(:annict_id, :action_type)
   end
 end
