@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "actions/create"
+  get "actions/update"
   resources :posts do
     collection do
       get :watched
