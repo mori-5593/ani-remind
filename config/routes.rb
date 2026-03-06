@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get "actions/create"
-  get "actions/update"
   resources :posts do
     collection do
       get :watched
@@ -15,6 +13,7 @@ Rails.application.routes.draw do
 
   resources :passwords, param: :token
   resources :users, only: [ :new, :create, :show, :edit, :update ]
+  resources :actions, only: [ :create, :update ]
 
   root "posts#index"
 
