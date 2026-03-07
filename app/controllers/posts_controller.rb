@@ -12,7 +12,6 @@ class PostsController < ApplicationController
     @post = current_user.posts.build
 
     if params[:annict_id].present?
-      # インスタンス化して呼び出す
       client = AnnictApiClient.new
       work_data = client.fetch_work(params[:annict_id])
       
