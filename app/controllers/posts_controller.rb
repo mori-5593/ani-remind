@@ -59,22 +59,6 @@ class PostsController < ApplicationController
     redirect_to posts_path, notice: "投稿を削除しました"
   end
 
-  def watched
-    # ステータスが「見た（０）」の投稿だけ取得
-    @q = current_user.posts.watched.ransack(params[:q])
-    @posts = @q.result
-    @page_title = "みた一覧"
-    render :index
-  end
-
-  def want_to_watch
-    # ステータスが「見たい（１）」の投稿だけ取得
-    @q = current_user.posts.want_to_watch.ransack(params[:id])
-    @posts = @q.result
-    @page_title = "みたい一覧"
-    render :index
-  end
-
   def search
     # サービスオブジェクトを使って検索結果を取得
     results = AnnictApiClient.new.search_works(params[:keyword])

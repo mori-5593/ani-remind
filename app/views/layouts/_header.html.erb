@@ -10,7 +10,6 @@
         <% if logged_in? %>
           <%= link_to "新規投稿", new_post_path, class: "#{current_page?(new_post_path) ? 'text-orange-500 font-bold' : 'text-gray-700 hover:text-orange-500'}" %>
           <%= link_to "投稿一覧", root_path, class: "#{current_page?(root_path) ? 'text-orange-500 font-bold' : 'text-gray-700 hover:text-orange-500'}" %>
-          <%= link_to "ログアウト", logout_path, data: { turbo_method: :delete }, class: "#{current_page?(logout_path) ? 'text-orange-500 font-bold' : 'text-gray-700 hover:text-orange-500'}" %>
 
           <div class="relative group"> <button type="button" class="flex items-center space-x-2 border-l pl-6 ml-2 focus:outline-none py-4"> <div class="w-8 h-8 flex items-center justify-center bg-gray-500 text-white rounded-full text-xs">
                 <%= current_user.email_address[0].upcase %>
@@ -23,8 +22,7 @@
 
             <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 absolute right-0 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-50 transition-all duration-200">
               <%= link_to "マイページ", user_path(current_user), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
-              <%= link_to "みた一覧", watched_posts_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
-              <%= link_to "みたい一覧", want_to_watch_posts_path, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
+              <%= link_to "ログアウト", logout_path, data: { turbo_method: :delete }, class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" %>
             </div>
           </div>
 
