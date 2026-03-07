@@ -28,6 +28,10 @@ class UsersController < ApplicationController
 
     @q = scoped_posts.ransack(params[:q])
     @posts = @q.result.order(created_at: :desc)
+
+    if params[:status] == "want_to_watch"
+      @want_to_watch_actions = @user.actions.want_to_watch.order(created_at: :desc)
+    end
   end
 
   def edit

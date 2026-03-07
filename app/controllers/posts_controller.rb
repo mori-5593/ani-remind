@@ -10,15 +10,30 @@ class PostsController < ApplicationController
 
   def new
     @post = current_user.posts.build
+
+    if params[:annict_id].present?
+      # インスタンス化して呼び出す
+      client = AnnictApiClient.new
+      work_data = client.fetch_work(params[:annict_id])
+      
+      @post.annict_id = params[:annict_id]
+      @post.title = work_data[:title]
+      @post.image_url = work_data[:image_url]
+    end
   end
 
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to root_path, notice: "アニメを記録しました"
+      # 【ここを追加】感想を投稿した瞬間に、アクションを「みた(watched)」に更新する
+      action = current_user.actions.find_by(annict_id: @post.annict_id)
+      if action
+        action.update(action_type: :watched)
+      end
+      
+      redirect_to @post, notice: "アニメを記録しました"
     else
-      puts @post.errors.full_messages
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 

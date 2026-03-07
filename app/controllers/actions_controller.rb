@@ -15,7 +15,7 @@ class ActionsController < ApplicationController
 
   # 「みたい」→「みた」に変更
   def update
-    @action = current_user.actions.find_by!(annict_id: params[:action][:annict_id])
+    @action = current_user.actions.find_by!(annict_id: params[:my_action][:annict_id])
 
     if @action.update(action_params)
       redirect_back fallback_location: root_path, notice: "視聴状況を更新しました"
@@ -27,6 +27,6 @@ class ActionsController < ApplicationController
   private
 
   def action_params
-    params.require(:my_action).permit(:annict_id, :action_type)
+    params.require(:my_action).permit(:annict_id, :action_type, :title, :image_url)
   end
 end
