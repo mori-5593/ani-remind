@@ -1,4 +1,4 @@
-require 'pagy'
+require "pagy"
 
 # Pagy initializer file
 # frozen_string_literal: true

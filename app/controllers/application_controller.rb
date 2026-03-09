@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   # Override pagy to set a global default for items per page
   def pagy(collection, vars = {})
-    default_vars = { items: 3 }
+    default_vars = { items: 20 }
     super(collection, default_vars.merge(vars))
   end
 
