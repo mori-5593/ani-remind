@@ -14,7 +14,7 @@ class PostsController < ApplicationController
     if params[:annict_id].present?
       client = AnnictApiClient.new
       work_data = client.fetch_work(params[:annict_id])
-      
+
       @post.annict_id = params[:annict_id]
       @post.title = work_data[:title]
       @post.image_url = work_data[:image_url]
@@ -29,7 +29,7 @@ class PostsController < ApplicationController
       if action
         action.update(action_type: :watched)
       end
-      
+
       redirect_to @post, notice: "アニメを記録しました"
     else
       render :new
