@@ -1,4 +1,5 @@
 <h1 class="text-2xl font-bold text-center my-8"><%= @user.name || "名無しさん" %>のマイページ</h1>
+<!--自己紹介部分-->
 <div class="max-w-5xl mx-auto px-4 py-8">
   <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
     <div class="flex items-center justify-between mb-4">
@@ -19,50 +20,106 @@
   </div>
 </div>
 
+<!--ページタブ部分-->
 <div id="posts-container" class="max-w-5xl mx-auto px-4">
-  <div class="flex soace-1 border-b border-gray-200 mb-6">
-    <%= link_to "全て", user_path(@user), class: "px-4 py-2 text-lg font-semibold #{params[:status].nil? ? 'border-b-2 border-orange-500 text-orange-500' : 'text-gray-500 hover:text-orange-500'}" %>
-    <%= link_to "みた", user_path(@user, status: 'watched'), class: "px-4 py-2 text-lg font-semibold #{params[:status] == 'watched' ? 'border-b-2 border-orange-500 text-orange-500' : 'text-gray-500 hover:text-orange-500'}" %>
-    <%= link_to "みたい", user_path(@user, status: 'want_to_watch'), class: "px-4 py-2 text-lg font-semibold #{params[:status] == 'want_to_watch' ? 'border-b-2 border-orange-500 text-orange-600' : 'text-gray-500 hover:text-orange-500'}" %>
-  </div>
+  <turbo-frame id="posts-container">
+    <div class="flex soace-1 border-b border-gray-200 mb-6">
+      <%= link_to "全て", user_path(@user), class: "px-4 py-2 text-lg font-semibold #{params[:status].nil? ? 'border-b-2 border-orange-500 text-orange-500' : 'text-gray-500 hover:text-orange-500'}", data: { turbo_frame: "posts-container" } %>
+      <%= link_to "みた", user_path(@user, status: 'watched'), class: "px-4 py-2 text-lg font-semibold #{params[:status] == 'watched' ? 'border-b-2 border-orange-500 text-orange-500' : 'text-gray-500 hover:text-orange-500'}", data: { turbo_frame: "posts-container" } %>
+      <%= link_to "みたい", user_path(@user, status: 'want_to_watch'), class: "px-4 py-2 text-lg font-semibold #{params[:status] == 'want_to_watch' ? 'border-b-2 border-orange-500 text-orange-600' : 'text-gray-500 hover:text-orange-500'}", data: { turbo_frame: "posts-container" } %>
+    </div>
 
-  <% if @posts.any? %>
-    <% @posts.each do |post| %>
-      <div class="flex bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-3 h-32">
+    <div class="mt-6">
+      <% if params[:status] == 'want_to_watch' %>
+        <%# 【A】「みたい」タブが選ばれている時（Actionモデルを表示） %>
+        <div class="grid grid-cols-1 gap-4">
+          <% if @want_to_watch_actions.present? && @want_to_watch_actions.any? %>
+            <% @want_to_watch_actions.each do |action| %>
+              <div class="flex bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-3 h-32">
+                <%# 画像部分 %>
+                <div class="w-1/4 h-32 bg-gray-100 flex-shrink-0">
+                  <% if action.image_url.present? %>
+                    <img src="<%= action.image_url %>" class="w-full h-full object-cover">
+                  <% else %>
+                    <div class="flex items-center justify-center w-full h-full text-xs text-gray-400">No Image</div>
+                  <% end %>
+                </div>
 
-        <div class="w-1/4 h-32 bg-gray-100 flex-shrink-0">
-          <% if post.image_url.present? %>
-            <img src="<%= post.image_url %>" class="w-full h-full object-cover">
+                <%# テキスト部分 %>
+                <div class="w-3/4 p-3 flex flex-col justify-between">
+                  <h2 class="text-base font-bold text-gray-800"><%= action.title || "タイトル不明" %></h2>
+                  <p class="italic text-gray-400">見たら感想を書きましょう</p>
+                  <div class="flex justify-end">
+                    <%= render_action_button(action) %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
           <% else %>
-            <div class="flex items-center justify-center w-full h-full text-xs text-gray-400 font-medium">No Image</div>
+            <p class="text-gray-500 italic">「みたい」作品はまだありません</p>
           <% end %>
         </div>
 
-        <div class="w-3/4 p-3 flex flex-col justify-between">
-          <div>
-            <div class="flex justify-between items-center mb-3">
-              <%= link_to post_path(post), class: "truncate mr-2 hover:text-blue-600 transition" do %>
-                <h2 class="text-base font-bold text-gray-800"><%= post.title %></h2>
-              <% end %>
+      <% else %>
+        <%# 【B】「全て」または「みた」タブ（Postモデルを表示） %>
+        <div class="space-y-4">
+          <% items = @all_activities || @posts %>
 
-              <div class="flex items-center gap-2 text-xs text-gray-700 flex-shrink-0">
-                <span class="font-medium bg-gray-100 px-2 py-0.5 rounded"><%= post.status_i18n %></span>
-                <% if post.watched? %>
-                  <span>|</span>
-                  <span class="text-yellow-500"><%= render_stars(post.rating) %></span>
-                <% end %>
+          <% if items.any? %>
+            <% items.each do |item| %>
+              <div class="flex bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-3 h-32">
+                <div class="w-1/4 h-32 bg-gray-100 flex-shrink-0">
+                  <% if item.image_url.present? %>
+                    <img src="<%= item.image_url %>" class="w-full h-full object-cover">
+                  <% else %>
+                    <div class="flex items-center justify-center w-full h-full text-xs text-gray-400 font-medium">No Image</div>
+                  <% end %>
+                </div>
+
+                <div class="w-3/4 p-3 flex flex-col justify-between">
+                  <div>
+                    <div class="flex justify-between items-center mb-3">
+                      <% if item.is_a?(Post) %>
+                        <%= link_to post_path(item), class: "truncate mr-2 hover:text-blue-600 transition" do %>
+                          <h2 class="text-base font-bold text-gray-800"><%= item.title %></h2>
+                        <% end %>
+                      <% else %>
+                        <h2 class="text-base font-bold text-gray-800"><%= item.title %></h2>
+                      <% end %>
+
+                      <div class="flex items-center gap-2 text-xs text-gray-700 flex-shrink-0">
+                        <% if item.is_a?(Post) %>
+                          <span class="font-medium bg-gray-100 px-2 py-0.5 rounded"><%= item.status_i18n %></span>
+                        <% end %>
+                        <% if item.is_a?(Post) && item.watched? %>
+                          <span>|</span>
+                          <span class="text-yellow-500"><%= render_stars(item.rating) %></span>
+                        <% end %>
+                      </div>
+                    </div>
+
+                    <%# 内容の出し分け %>
+                    <div class="text-gray-600 line-clamp-2 text-sm mr-8">
+                      <% if item.is_a?(Post) %>
+                        <%= item.content %>
+                      <% else %>
+                        <p class="italic text-gray-400">見たら感想を書きましょう</p>
+                      <% end %>
+                    </div>
+                  </div>
+
+                  <%# ボタン（共通ヘルパーが使えます！） %>
+                  <div class="flex justify-end">
+                    <%= render_action_button(item) %>
+                  </div>
+                </div>
               </div>
-            </div>
-
-            <div class="text-gray-600 line-clamp-2 text-sm mr-8">
-              <%= post.content %>
-            </div>
-          </div>
+            <% end %>
+          <% else %>
+            <p class="text-gray-500 italic">まだ投稿はありません</p>
+          <% end %>
         </div>
-      </div>
-    <% end %>
-  <% else %>
-    <p>まだ投稿はありません</p>
-  <% end %>
+      <% end %>
+    </div>
+  </turbo-frame>
 </div>
-

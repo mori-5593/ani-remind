@@ -16,6 +16,6 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
       post posts_url, params: { post: { title: "Test Title", rating: 3, status: "watched", content: "test" } }
     end
 
-    assert_redirected_to root_url # 投稿後のリダイレクト先
+    assert_redirected_to post_url(Post.last) # 投稿後のリダイレクト先
   end
 end

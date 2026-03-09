@@ -10,15 +10,29 @@ class PostsController < ApplicationController
 
   def new
     @post = current_user.posts.build
+
+    if params[:annict_id].present?
+      client = AnnictApiClient.new
+      work_data = client.fetch_work(params[:annict_id])
+
+      @post.annict_id = params[:annict_id]
+      @post.title = work_data[:title]
+      @post.image_url = work_data[:image_url]
+    end
   end
 
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to root_path, notice: "アニメを記録しました"
+      # 【ここを追加】感想を投稿した瞬間に、アクションを「みた(watched)」に更新する
+      action = current_user.actions.find_by(annict_id: @post.annict_id)
+      if action
+        action.update(action_type: :watched)
+      end
+
+      redirect_to @post, notice: "アニメを記録しました"
     else
-      puts @post.errors.full_messages
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
@@ -43,22 +57,6 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @post.destroy!
     redirect_to posts_path, notice: "投稿を削除しました"
-  end
-
-  def watched
-    # ステータスが「見た（０）」の投稿だけ取得
-    @q = current_user.posts.watched.ransack(params[:q])
-    @posts = @q.result
-    @page_title = "みた一覧"
-    render :index
-  end
-
-  def want_to_watch
-    # ステータスが「見たい（１）」の投稿だけ取得
-    @q = current_user.posts.want_to_watch.ransack(params[:id])
-    @posts = @q.result
-    @page_title = "みたい一覧"
-    render :index
   end
 
   def search

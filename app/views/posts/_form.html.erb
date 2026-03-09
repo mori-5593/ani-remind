@@ -2,6 +2,10 @@
 
   <%= form_with model: @post, local: true, class: "space-y-6" do |form| %>
 
+  <%= form.hidden_field :annict_id %>
+  <%= form.hidden_field :title %>
+  <%= form.hidden_field :image_url %>
+
     <div>
       <%= form.label :title, "アニメ題名", for: "title-search", class: "block text-sm font-medium text-gray-700" %>
       <%= form.text_field :title, id: "title-search", required: true, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
@@ -10,7 +14,11 @@
 
     <div>
       <%= form.hidden_field :image_url, id: "hidden-image-url" %>
+      <%= form.hidden_field :annict_id %>
     </div>
+
+    <%= hidden_field_tag :title, id: "hidden-title" %>
+    <%= hidden_field_tag :image_url, id: "hidden-image-url" %>
 
     <div >
       <%= form.label :status, "視聴状況", class: "block text-sm font-medium text-gray-700" %>
@@ -56,6 +64,7 @@
 
     if (keyword.length < 2) {
       resultsDiv.classList.add('hidden');
+      resultsDiv.innerHTML = '';
       return;
     }
 
@@ -63,13 +72,16 @@
       try {
         const response = await fetch(`/posts/search?keyword=${encodeURIComponent(keyword)}`);
         const works = await response.json();
+
         if (Array.isArray(works)) {
           resultsDiv.innerHTML = works.map(work => {
             const imageUrl = work.images?.recommended_url || '';
             const imgTag = imageUrl ? `<img src="${imageUrl}" class="w-10 h-10 object-cover mr-2 rounded">` : '';
+            const safeTitle = work.title.replace(/'/g, "\\'");
 
             return `
-              <div class="p-2 border-b cursor-pointer hover:bg-gray-100 flex items-center" onclick="selectWork('${work.title.replace(/'/g, "\\'")}', '${imageUrl}')">
+              <div class="p-2 border-b cursor-pointer hover:bg-gray-100 flex items-center" 
+                  onclick="selectWork('${safeTitle}', '${imageUrl}', '${work.id}')">
                 ${imgTag}
                 <span>${work.title}</span>
               </div>
@@ -83,10 +95,21 @@
     }, 300);
   }
 
-  function selectWork(title, imageUrl) {
-    document.getElementById('title-search').value = title;
-    const hiddenInput = document.getElementById('hidden-image-url');
-    if (hiddenInput) hiddenInput.value = imageUrl;
-    document.getElementById('search-results').classList.add('hidden');
+  function selectWork(title, imageUrl, annictId) {
+  document.getElementById('title-search').value = title;
+  document.getElementById('post_annict_id').value = annictId;
+
+  if (document.getElementById('hidden-title')) {
+    document.getElementById('hidden-title').value = title;
   }
+  if (document.getElementById('hidden-image-url')) {
+    document.getElementById('hidden-image-url').value = imageUrl;
+  }
+
+  const searchResults = document.getElementById('search-results');
+  if (searchResults) {
+    searchResults.classList.add('hidden');
+    searchResults.innerHTML = '';
+  }
+}
 </script>

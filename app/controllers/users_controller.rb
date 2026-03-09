@@ -19,15 +19,26 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    base_posts = @user.posts
-    scoped_posts = case params[:status]
-    when "watched" then base_posts.watched
-    when "want_to_watch" then base_posts.want_to_watch
-    else base_posts
-    end
 
-    @q = scoped_posts.ransack(params[:q])
-    @posts = @q.result.order(created_at: :desc)
+    if params[:status].nil?
+      posts = @user.posts.order(created_at: :desc)
+      actions = @user.actions.want_to_watch.order(created_at: :desc)
+      @all_activities = (posts.to_a + actions.to_a).sort_by(&:created_at).reverse
+    else
+      base_posts = @user.posts
+      scoped_posts = case params[:status]
+      when "watched" then base_posts.watched
+      when "want_to_watch" then base_posts.want_to_watch
+      else base_posts
+      end
+
+      @q = scoped_posts.ransack(params[:q])
+      @posts = @q.result.order(created_at: :desc)
+
+      if params[:status] == "want_to_watch"
+        @want_to_watch_actions = @user.actions.want_to_watch.order(created_at: :desc)
+      end
+    end
   end
 
   def edit
