@@ -28,19 +28,19 @@
     <%= link_to "みたい", user_path(@user, status: 'want_to_watch'), class: "px-4 py-2 text-lg font-semibold #{params[:status] == 'want_to_watch' ? 'border-b-2 border-orange-500 text-orange-600' : 'text-gray-500 hover:text-orange-500'}", data: { turbo_frame: "posts-container" } %>
   </div>
 
-  <div class="mt-6">
+  <div class="max-w-5xl mx-auto px-4">
     <% if params[:status] == 'want_to_watch' %>
       <%# 【A】「みたい」タブが選ばれている時（Actionモデルを表示） %>
-      <div class="grid grid-cols-1 gap-4">
+      <div class="grid grid-cols-1">
         <% if @want_to_watch_actions.present? && @want_to_watch_actions.any? %>
           <% @want_to_watch_actions.each do |action| %>
-            <div class="flex bg-white rounded-lg shadow-sm border border-gray-200 mb-3 h-32">
+            <div class="flex bg-white rounded-lg shadow-sm border border-gray-200 mb-3 h-32 overflow-hidden">
               <%# 画像部分 %>
-              <div class="w-1/4 h-32 bg-gray-100 flex-shrink-0">
+              <div class="w-1/4 bg-gray-100 flex-shrink-0">
                 <% if action.image_url.present? %>
                   <img src="<%= action.image_url %>" class="w-full h-full object-cover">
                 <% else %>
-                  <div class="flex items-center justify-center w-full h-full text-xs text-gray-400">No Image</div>
+                  <div class="flex items-center justify-center w-full h-full text-xs text-gray-400 font-medium">No Image</div>
                 <% end %>
               </div>
 
@@ -66,8 +66,8 @@
 
         <% if items.any? %>
           <% items.each do |item| %>
-            <div class="flex bg-white rounded-lg shadow-sm border border-gray-200 -hidden mb-3 h-32">
-              <div class="w-1/4 h-32 bg-gray-100 flex-shrink-0">
+            <div class="flex bg-white rounded-lg shadow-sm border border-gray-200 mb-3 h-32 overflow-hidden">
+              <div class="w-1/4 bg-gray-100 flex-shrink-0">
                 <% if item.image_url.present? %>
                   <img src="<%= item.image_url %>" class="w-full h-full object-cover">
                 <% else %>
@@ -119,6 +119,7 @@
         <% end %>
       </div>
     <% end %>
+
   </div>
   <% if @pagy.pages > 1 %>
   <div class="mt-10 flex justify-center">
@@ -142,5 +143,5 @@
 
     </div>
   </div>
-<% end %>
+  <% end %>
 </turbo-frame>
