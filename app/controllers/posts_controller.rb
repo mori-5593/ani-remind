@@ -6,6 +6,7 @@ class PostsController < ApplicationController
     @q = Post.ransack(params[:q])
     @posts = @q.result(distinct: :true).order(created_at: :desc)
     @page_title = "投稿一覧"
+    @pagy, @posts = pagy(Post.order(created_at: :desc))
   end
 
   def new

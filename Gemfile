@@ -46,6 +46,7 @@ gem "tailwindcss-rails"
 gem "faraday"
 gem "dotenv-rails", group: [ :development, :test ] # APIキーを隠すためのgem
 gem "ransack"
+gem "pagy", "~> 8.0"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
