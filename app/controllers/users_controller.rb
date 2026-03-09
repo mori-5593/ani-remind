@@ -24,6 +24,7 @@ class UsersController < ApplicationController
       posts = @user.posts.order(created_at: :desc)
       actions = @user.actions.want_to_watch.order(created_at: :desc)
       @all_activities = (posts.to_a + actions.to_a).sort_by(&:created_at).reverse
+      @pagy, @items = pagy_array(@all_activities, items: 10)
     else
       base_posts = @user.posts
       scoped_posts = case params[:status]
@@ -33,7 +34,7 @@ class UsersController < ApplicationController
       end
 
       @q = scoped_posts.ransack(params[:q])
-      @posts = @q.result.order(created_at: :desc)
+      @pagy, @items = pagy(@q.result.order(created_at: :desc))
 
       if params[:status] == "want_to_watch"
         @want_to_watch_actions = @user.actions.want_to_watch.order(created_at: :desc)
