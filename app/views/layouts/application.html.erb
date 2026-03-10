@@ -27,21 +27,8 @@
   <body class="d-flex flex-column h-100 bg-olive-300 min-h-screen pt-16">
     <%= render 'layouts/header' %>
 
-    <div class="max-w-7xl mx-auto px-4 mt-4">
-      <%# フラッシュメッセージ（通知）の表示エリア（後でログイン機能などで使う） %>
-      <% flash.each do |message_type, message| %>
-        <% bg_color = case message_type.to_s
-                      when "notice", "success"
-                        "bg-green-100 border-green-400 text-green-700"
-                      when "alert", "error"
-                        "bg-red-100 border-red-400 text-red-700"
-                      else
-                        "bg-blue-100 border-blue-400 text-blue-700"
-                      end %>
-        <div class="<%= bg_color %> border px-4 py-3 rounded relative mb-4" role="alert">
-          <span class="block sm:inline"><%= message %></span>
-        </div>
-      <% end %>
+    <div id="flash" class="max-w-7xl mx-auto px-4 mt-4">
+      <%= render 'layouts/flash' %>
     </div>
 
       <%= yield %>
