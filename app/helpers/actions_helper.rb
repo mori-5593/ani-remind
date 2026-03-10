@@ -22,11 +22,19 @@ module ActionsHelper
       link_to "投稿済み", "#", class: "text-xs px-2 py-2 bg-gray-400 rounded text-white cursor-not-allowed"
     elsif action&.persisted?
       if action.want_to_watch?
-        link_to "感想を書く", new_post_path(annict_id: annict_id),
+        link_to(
+          "感想を書く",
+          new_post_path(annict_id: annict_id),
+          data: { turbo: false },
           class: "text-xs px-2 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600 transition"
+        )
       else
-        link_to "感想を書く", new_post_path(annict_id: annict_id),
+        link_to(
+          "感想を書く",
+          new_post_path(annict_id: annict_id),
+          data: { turbo: false },
           class: "text-xs px-2 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600 transition"
+        )
       end
     else
       # 未登録の場合：「みたい」ボタン
