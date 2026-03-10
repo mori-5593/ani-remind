@@ -4,9 +4,9 @@ class PostsController < ApplicationController
 
   def index
     @q = Post.ransack(params[:q])
-    @posts = @q.result(distinct: :true).order(created_at: :desc)
     @page_title = "投稿一覧"
-    @pagy, @posts = pagy(Post.order(created_at: :desc))
+    # Ransack の結果に対してページネーションを適用する
+    @pagy, @posts = pagy(@q.result(distinct: true).order(created_at: :desc))
   end
 
   def new
@@ -50,7 +50,7 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       redirect_to @post, notice: "投稿を更新しました"
     else
-      render :edit, status: unprocessable_entity
+      render :edit, status: :unprocessable_entity
     end
   end
 

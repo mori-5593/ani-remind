@@ -6,8 +6,10 @@ class ActionsController < ApplicationController
     @action = current_user.actions.build(action_params)
 
     if @action.save
-      # redirect_back fallback_location: root_pathは直前のページへリダイレクトされる
-      redirect_back fallback_location: root_path, notice: "リストに追加しました"
+      respond_to do |format|
+        format.html { redirect_back fallback_location: root_path, notice: "リストに追加しました" }
+        format.turbo_stream
+      end
     else
       redirect_back fallback_location: root_path, alert: "追加に失敗しました"
     end

@@ -1,26 +1,27 @@
-<fieldset class="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+<fieldset class="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md" data-controller="search">
 
   <%= form_with model: @post, local: true, class: "space-y-6" do |form| %>
 
-  <%= form.hidden_field :annict_id %>
-  <%= form.hidden_field :title %>
-  <%= form.hidden_field :image_url %>
+    <%= form.hidden_field :annict_id, data: { search_target: "annictId" } %>
+    <%= form.hidden_field :image_url, data: { search_target: "imageUrl" } %>
 
     <div>
       <%= form.label :title, "アニメ題名", for: "title-search", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_field :title, id: "title-search", required: true, class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
-      <div id="search-results" class="mt-2 border rounded shadow-sm hidden"></div>
+      <%= form.text_field :title, 
+          id: "title-search", 
+          required: true, 
+          autocomplete: "off", 
+          class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500",
+          data: { 
+            search_target: "input",
+            action: "input->search#handleSearch" 
+          } %>
+      <div id="search-results" 
+           class="mt-2 border rounded shadow-md hidden bg-white relative z-50 overflow-hidden"
+           data-search-target="results"></div>
     </div>
 
     <div>
-      <%= form.hidden_field :image_url, id: "hidden-image-url" %>
-      <%= form.hidden_field :annict_id %>
-    </div>
-
-    <%= hidden_field_tag :title, id: "hidden-title" %>
-    <%= hidden_field_tag :image_url, id: "hidden-image-url" %>
-
-    <div >
       <%= form.label :status, "視聴状況", class: "block text-sm font-medium text-gray-700" %>
       <%= form.select :status, [["みた", "watched"], ["みたい", "want_to_watch"]], {}, { id: "status-select", class: "form-select" } %>
     </div>
@@ -43,73 +44,3 @@
     <%= form.submit post.new_record? ? "投稿する" : "更新する" , class: "w-full mt-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none transition-colors" %>
   <% end %>
 </fieldset>
-
-<script>
-  window.debounceTimer = window.debounceTimer || null;
-
-  document.addEventListener('turbo:load', () => {
-    const searchInput = document.getElementById('title-search');
-    const resultsDiv = document.getElementById('search-results');
-
-    if (searchInput && resultsDiv) {
-      searchInput.removeEventListener('input', handleSearch);
-      searchInput.addEventListener('input', handleSearch);
-    }
-  });
-
-  function handleSearch(e) {
-    if (window.debounceTimer) clearTimeout(window.debounceTimer);
-    const keyword = e.target.value;
-    const resultsDiv = document.getElementById('search-results');
-
-    if (keyword.length < 2) {
-      resultsDiv.classList.add('hidden');
-      resultsDiv.innerHTML = '';
-      return;
-    }
-
-    window.debounceTimer = setTimeout(async () => {
-      try {
-        const response = await fetch(`/posts/search?keyword=${encodeURIComponent(keyword)}`);
-        const works = await response.json();
-
-        if (Array.isArray(works)) {
-          resultsDiv.innerHTML = works.map(work => {
-            const imageUrl = work.images?.recommended_url || '';
-            const imgTag = imageUrl ? `<img src="${imageUrl}" class="w-10 h-10 object-cover mr-2 rounded">` : '';
-            const safeTitle = work.title.replace(/'/g, "\\'");
-
-            return `
-              <div class="p-2 border-b cursor-pointer hover:bg-gray-100 flex items-center" 
-                  onclick="selectWork('${safeTitle}', '${imageUrl}', '${work.id}')">
-                ${imgTag}
-                <span>${work.title}</span>
-              </div>
-            `;
-          }).join('');
-          resultsDiv.classList.remove('hidden');
-        }
-      } catch (err) {
-        console.error("検索エラー:", err);
-      }
-    }, 300);
-  }
-
-  function selectWork(title, imageUrl, annictId) {
-  document.getElementById('title-search').value = title;
-  document.getElementById('post_annict_id').value = annictId;
-
-  if (document.getElementById('hidden-title')) {
-    document.getElementById('hidden-title').value = title;
-  }
-  if (document.getElementById('hidden-image-url')) {
-    document.getElementById('hidden-image-url').value = imageUrl;
-  }
-
-  const searchResults = document.getElementById('search-results');
-  if (searchResults) {
-    searchResults.classList.add('hidden');
-    searchResults.innerHTML = '';
-  }
-}
-</script>

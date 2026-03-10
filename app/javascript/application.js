@@ -2,7 +2,7 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("turbo:load", () => {
   const button = document.getElementById("menu-button")
   const menu = document.getElementById("mobile-menu")
 

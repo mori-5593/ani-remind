@@ -1,7 +1,7 @@
 # 新規登録
 class UsersController < ApplicationController
   allow_unauthenticated_access only: %i[ new create]
-  before_action :require_authentication
+  before_action :require_authentication, except: %i[new create]
 
   def new
     @user = User.new
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to user_path(@user), notice: "プロフィールを更新しました"
     else
-      render :edit, status: unprocessable_entity
+      render :edit, status: :unprocessable_entity
     end
   end
 
