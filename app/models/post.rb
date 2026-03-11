@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  attr_accessor :from
   belongs_to :user
 
   validates :title, presence: true

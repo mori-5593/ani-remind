@@ -11,6 +11,7 @@ class PostsController < ApplicationController
 
   def new
     @post = current_user.posts.build
+    @post.from = params[:from]
 
     if params[:annict_id].present?
       client = AnnictApiClient.new
@@ -25,13 +26,20 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
+      # 感想を投稿した瞬間に、同じ作品に対する「みたい」ステータスの投稿があれば削除する
+      current_user.posts.where(annict_id: @post.annict_id, status: :want_to_watch).where.not(id: @post.id).destroy_all
+
       # 【ここを追加】感想を投稿した瞬間に、アクションを「みた(watched)」に更新する
       action = current_user.actions.find_by(annict_id: @post.annict_id)
       if action
         action.update(action_type: :watched)
       end
 
-      redirect_to @post, notice: "アニメを記録しました"
+      if @post.from == "mypage"
+        redirect_to user_path(current_user), notice: "アニメを記録しました"
+      else
+        redirect_to posts_path, notice: "アニメを記録しました"
+      end
     else
       render :new
     end
@@ -70,7 +78,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :rating, :annict_id, :image_url, :status)
+    params.require(:post).permit(:title, :content, :rating, :annict_id, :image_url, :status, :from)
   end
 
   def ensure_current_user

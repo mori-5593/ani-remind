@@ -20,25 +20,26 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-    if params[:status].nil?
+    case params[:status]
+    when nil
+      # 「全て」タブ
       posts = @user.posts.order(created_at: :desc)
       actions = @user.actions.want_to_watch.order(created_at: :desc)
       @all_activities = (posts.to_a + actions.to_a).sort_by(&:created_at).reverse
       @pagy, @items = pagy_array(@all_activities, items: 10)
-    else
-      base_posts = @user.posts
-      scoped_posts = case params[:status]
-      when "watched" then base_posts.watched
-      when "want_to_watch" then base_posts.want_to_watch
-      else base_posts
-      end
-
-      @q = scoped_posts.ransack(params[:q])
+    when "watched"
+      # 「みた」タブ
+      @q = @user.posts.watched.ransack(params[:q])
       @pagy, @items = pagy(@q.result.order(created_at: :desc))
-
-      if params[:status] == "want_to_watch"
-        @want_to_watch_actions = @user.actions.want_to_watch.order(created_at: :desc)
-      end
+    when "want_to_watch"
+      # 「みたい」タブ
+      posts = @user.posts.want_to_watch.order(created_at: :desc)
+      actions = @user.actions.want_to_watch.order(created_at: :desc)
+      @all_activities = (posts.to_a + actions.to_a).sort_by(&:created_at).reverse
+      @pagy, @items = pagy_array(@all_activities, items: 10)
+    else
+      @q = @user.posts.ransack(params[:q])
+      @pagy, @items = pagy(@q.result.order(created_at: :desc))
     end
   end
 
