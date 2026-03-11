@@ -41,17 +41,19 @@ MVPリリース時に作っていたいもの
 ・検索機能（タイトル検索）
 ・マイページ（自分の投稿一覧表示）
 ・外部API連携によるタイトル自動補完
+・「みたい！」「みた！」ボタン
 
 本リリースまでに作っていたいもの
-・「みたい！」「みた！」ボタン
 ・コメント機能
 ・プロフィール編集機能（アイコン画像等）
+・メールアドレス変更
+・各ユーザーのリンク指定
 
 ## 使用する技術スタック
-- 使用するフレームワーク：Ruby on Rails：7.1.x
+- 使用するフレームワーク：Ruby on Rails：8.1.x
 - データベース：PostgreSQL
 - デプロイ先：Render
-- 使用予定のライブラリ：Hotwire（Turbo / Stimulus）, Faraday
+- 使用予定のライブラリ：Hotwire（Turbo / Stimulus）, Faraday, Pagy, Ransack, CSS:Tailwind CSS
 - 外部API：Annict API（アニメ情報の自動取得に使用）
 
 ## 画面遷移図
@@ -59,4 +61,4 @@ Figma：<https://www.figma.com/design/zZ2m4tBGN4Tiiqnz0djq1S/AniRemind?node-id=0
 
 
 ## ER図
-<img width="809" height="731" alt="AniRemind drawio" src="https://github.com/user-attachments/assets/ef1feab5-d4ee-4934-a8d1-5f6aec7821d6" />
+<img width="761" height="931" alt="aniremind drawio" src="https://github.com/user-attachments/assets/303168c8-caab-43a4-b866-1be7063d2887" />

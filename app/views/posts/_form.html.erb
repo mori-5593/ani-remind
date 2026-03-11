@@ -8,16 +8,16 @@
 
     <div>
       <%= form.label :title, "アニメ題名", for: "title-search", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_field :title, 
-          id: "title-search", 
-          required: true, 
-          autocomplete: "off", 
+      <%= form.text_field :title,
+          id: "title-search",
+          required: true,
+          autocomplete: "off",
           class: "mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500",
-          data: { 
+          data: {
             search_target: "input",
-            action: "input->search#handleSearch" 
+            action: "input->search#handleSearch"
           } %>
-      <div id="search-results" 
+      <div id="search-results"
            class="mt-2 border rounded shadow-md hidden bg-white relative z-50 overflow-hidden"
            data-search-target="results"></div>
     </div>

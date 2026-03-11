@@ -1,6 +1,4 @@
 class ActionsController < ApplicationController
-  # before_action :authenticate_user!
-
   # 「みたい」に追加
   def create
     @action = current_user.actions.build(action_params)
