@@ -23,9 +23,9 @@
 <!--ページタブ部分-->
 <turbo-frame id="posts-container" class="max-w-5xl mx-auto px-4">
   <div class="flex space-1 border-b border-gray-200 mb-6">
-    <%= link_to "全て", user_path(@user), class: "px-4 py-2 text-lg font-semibold #{params[:status].nil? ? 'border-b-2 border-orange-500 text-orange-500' : 'text-gray-500 hover:text-orange-500'}", data: { turbo_frame: "posts-container" } %>
-    <%= link_to "みた", user_path(@user, status: 'watched'), class: "px-4 py-2 text-lg font-semibold #{params[:status] == 'watched' ? 'border-b-2 border-orange-500 text-orange-500' : 'text-gray-500 hover:text-orange-500'}", data: { turbo_frame: "posts-container" } %>
-    <%= link_to "みたい", user_path(@user, status: 'want_to_watch'), class: "px-4 py-2 text-lg font-semibold #{params[:status] == 'want_to_watch' ? 'border-b-2 border-orange-500 text-orange-600' : 'text-gray-500 hover:text-orange-500'}", data: { turbo_frame: "posts-container" } %>
+    <%= link_to "全て", user_path(@user), class: "px-4 py-2 text-lg font-semibold #{params[:status].nil? ? 'border-b-2 border-orange-500 text-orange-500' : 'text-gray-500 hover:text-orange-500'}", data: { turbo_frame: "posts-container", turbo_action: "advance" } %>
+    <%= link_to "みた", user_path(@user, status: 'watched'), class: "px-4 py-2 text-lg font-semibold #{params[:status] == 'watched' ? 'border-b-2 border-orange-500 text-orange-500' : 'text-gray-500 hover:text-orange-500'}", data: { turbo_frame: "posts-container", turbo_action: "advance" } %>
+    <%= link_to "みたい", user_path(@user, status: 'want_to_watch'), class: "px-4 py-2 text-lg font-semibold #{params[:status] == 'want_to_watch' ? 'border-b-2 border-orange-500 text-orange-600' : 'text-gray-500 hover:text-orange-500'}", data: { turbo_frame: "posts-container", turbo_action: "advance" } %>
   </div>
 
   <div class="max-w-5xl mx-auto px-4">
@@ -47,7 +47,7 @@
               <div>
                 <div class="flex justify-between items-center mb-3">
                   <% if item.is_a?(Post) %>
-                    <%= link_to post_path(item), class: "truncate mr-2 hover:text-blue-600 transition" do %>
+                    <%= link_to post_path(item), class: "truncate mr-2 hover:text-blue-600 transition", data: { turbo_frame: "_top", turbo_action: "advance" } do %>
                       <h2 class="text-base font-bold text-gray-800"><%= item.title %></h2>
                     <% end %>
                   <% else %>

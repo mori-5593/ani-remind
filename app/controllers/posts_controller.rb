@@ -11,6 +11,7 @@ class PostsController < ApplicationController
 
   def new
     @post = current_user.posts.build
+    @post.from = params[:from]
 
     if params[:annict_id].present?
       client = AnnictApiClient.new
@@ -34,7 +35,11 @@ class PostsController < ApplicationController
         action.update(action_type: :watched)
       end
 
-      redirect_to @post, notice: "アニメを記録しました"
+      if @post.from == "mypage"
+        redirect_to user_path(current_user), notice: "アニメを記録しました"
+      else
+        redirect_to posts_path, notice: "アニメを記録しました"
+      end
     else
       render :new
     end
@@ -73,7 +78,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :content, :rating, :annict_id, :image_url, :status)
+    params.require(:post).permit(:title, :content, :rating, :annict_id, :image_url, :status, :from)
   end
 
   def ensure_current_user

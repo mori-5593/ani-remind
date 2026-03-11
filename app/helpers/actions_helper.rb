@@ -8,7 +8,7 @@ module ActionsHelper
           return turbo_frame_tag "action_button_#{object.annict_id}" do
             link_to(
               "感想を書く",
-              new_post_path(annict_id: object.annict_id),
+              new_post_path(annict_id: object.annict_id, from: "mypage"),
               data: { turbo: false },
               class: "text-xs px-2 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600 transition"
             )
@@ -39,7 +39,7 @@ module ActionsHelper
       elsif action&.persisted?
         link_to(
           "感想を書く",
-          new_post_path(annict_id: annict_id),
+          new_post_path(annict_id: annict_id, from: "mypage"),
           data: { turbo: false },
           class: "text-xs px-2 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600 transition"
         )
