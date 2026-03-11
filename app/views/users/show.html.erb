@@ -68,7 +68,11 @@
                 <%# 内容の出し分け %>
                 <div class="text-gray-600 line-clamp-2 text-sm mr-8">
                   <% if item.is_a?(Post) %>
-                    <%= item.content %>
+                    <% if item.want_to_watch? %>
+                      <p class="italic text-gray-400">見たら感想を書きましょう</p>
+                    <% else %>
+                      <%= item.content %>
+                    <% end %>
                   <% else %>
                     <p class="italic text-gray-400">見たら感想を書きましょう</p>
                   <% end %>

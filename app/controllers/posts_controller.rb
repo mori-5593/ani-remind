@@ -25,6 +25,9 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
+      # 感想を投稿した瞬間に、同じ作品に対する「みたい」ステータスの投稿があれば削除する
+      current_user.posts.where(annict_id: @post.annict_id, status: :want_to_watch).where.not(id: @post.id).destroy_all
+
       # 【ここを追加】感想を投稿した瞬間に、アクションを「みた(watched)」に更新する
       action = current_user.actions.find_by(annict_id: @post.annict_id)
       if action
