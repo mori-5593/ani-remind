@@ -36,7 +36,7 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :redirect
-    assert_redirected_to root_path
+    assert_redirected_to posts_path
   end
 
   test "should update action" do
@@ -47,6 +47,6 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_redirected_to root_path
+    assert_redirected_to posts_path
   end
 end

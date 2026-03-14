@@ -7,7 +7,7 @@ class UserSessionsController < ApplicationController
     user = User.authenticate_by(email_address: params[:email_address], password: params[:password])
     if user
       start_new_session_for user
-      redirect_to root_path, notice: "ログインしました"
+      redirect_to posts_path, notice: "ログインしました"
     else
       flash.now[:alert] = "メールアドレスまたはパスワードが正しくありません"
       render :new, status: :unprocessable_entity
@@ -16,6 +16,6 @@ class UserSessionsController < ApplicationController
 
   def destroy
     terminate_session
-    redirect_to root_path, notice: "ログアウトしました"
+    redirect_to posts_path, notice: "ログアウトしました"
   end
 end

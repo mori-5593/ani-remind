@@ -5,11 +5,11 @@ class ActionsController < ApplicationController
 
     if @action.save
       respond_to do |format|
-        format.html { redirect_back fallback_location: root_path, notice: "リストに追加しました" }
+        format.html { redirect_back fallback_location: posts_path, notice: "リストに追加しました" }
         format.turbo_stream
       end
     else
-      redirect_back fallback_location: root_path, alert: "追加に失敗しました"
+      redirect_back fallback_location: posts_path, alert: "追加に失敗しました"
     end
   end
 
@@ -18,9 +18,9 @@ class ActionsController < ApplicationController
     @action = current_user.actions.find_by!(annict_id: params[:my_action][:annict_id])
 
     if @action.update(action_params)
-      redirect_back fallback_location: root_path, notice: "視聴状況を更新しました"
+      redirect_back fallback_location: posts_path, notice: "視聴状況を更新しました"
     else
-      redirect_back fallback_location: root_path, alert: "更新に失敗しました"
+      redirect_back fallback_location: posts_path, alert: "更新に失敗しました"
     end
   end
 
