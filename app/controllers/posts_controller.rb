@@ -75,6 +75,9 @@ class PostsController < ApplicationController
     render json: results
   end
 
+  def main_visual
+  end
+
   private
 
   def post_params
