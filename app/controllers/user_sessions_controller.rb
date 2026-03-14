@@ -16,6 +16,6 @@ class UserSessionsController < ApplicationController
 
   def destroy
     terminate_session
-    redirect_to posts_path, notice: "ログアウトしました"
+    redirect_to root_path, notice: "ログアウトしました"
   end
 end

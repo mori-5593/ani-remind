@@ -12,7 +12,7 @@ module ActionsHelper
               data: { turbo: false },
               class: "text-xs px-2 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600 transition"
             )
-          end 
+          end
         else
           return nil
         end
