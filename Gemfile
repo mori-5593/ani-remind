@@ -46,7 +46,7 @@ gem "tailwindcss-rails"
 gem "faraday"
 gem "dotenv-rails", group: [ :development, :test ] # APIキーを隠すためのgem
 gem "ransack"
-gem "pagy", "~> 8.0"
+gem "pagy", "~> 43.3"
 gem "heroicon-rails"
 
 group :development, :test do
