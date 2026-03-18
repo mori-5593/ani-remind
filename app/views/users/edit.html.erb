@@ -12,6 +12,31 @@
       </div>
     <% end %>
 
+    <div class="flex items-center gap-6" data-controller="avatar-preview">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 my-2">現在のアイコン</label>
+        <% if @user.avatar.attached? %> <!--アイコン画像がなければデフォルト画像を表示-->
+          <%= image_tag @user.avatar, data: { avatar_preview_target: "preview" }, class: "w-24 h-24 rounded-full object-cover" %>
+        <% else %>
+          <%= image_tag "default-avatar.png", data: { avatar_preview_target: "preview" }, class: "w-24 h-24 rounded-full object-cover" %>
+        <% end %>
+      </div>
+
+      <div>
+        <%= form.file_field :avatar, 
+          data: { action: "change->avatar-preview#preview" },
+          class: "block w-full text-sm text-gray-500 
+          file:mr-4 file:py-2 file:px-4 
+          file:rounded-full file:border-0 
+          file:text-sm file:font-medium 
+          file:bg-orange-100 file:text-orange-700 
+          hover:file:bg-orange-200" %>
+        <p class="text-xs text-gray-400 mt-2">
+          ※画像を選択すると変更されます
+        </p>
+      </div>
+    </div>
+
     <div>
       <%= form.label :name, "名前", class: "block text-sm font-medium text-gray-700" %>
       <%= form.text_field :name, class: "bg-white mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" %>
