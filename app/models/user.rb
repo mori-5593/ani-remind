@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :actions, dependent: :destroy
   has_many :sessions, dependent: :destroy
   has_many :posts, dependent: :destroy
+  has_one_attached :avatar # 各userにアバター画像を添付
 
   validates :email_address, presence: true, uniqueness: true
   # allow_nilはpassword属性がnilの場合バリデーションエラーが発生しない、

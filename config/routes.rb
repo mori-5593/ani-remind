@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   delete "logout", to: "user_sessions#destroy", as: :logout
 
   resources :passwords, param: :token
-  resources :users, only: [ :new, :create, :show, :edit, :update ]
+  resources :users, only: [ :new, :create, :show, :edit, :update ] do
+    delete :remove_avatar, on: :member # アイコン削除処理用パス
+  end
   resources :actions, only: [ :create, :update ]
 
   root "home#index"
