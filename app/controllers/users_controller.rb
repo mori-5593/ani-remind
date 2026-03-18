@@ -59,8 +59,8 @@ class UsersController < ApplicationController
 
   def remove_avatar
     @user = current_user
-    #@user.avatar.purgeはActive Recordの削除用メソッド
-    @user.avatar.purge if @user.avatar.attached? #画像がある時だけ削除ボタンを表示
+    # @user.avatar.purgeはActive Recordの削除用メソッド
+    @user.avatar.purge if @user.avatar.attached? # 画像がある時だけ削除ボタンを表示
     redirect_to edit_user_path(@user), notice: "アイコンを削除しました"
   end
 
