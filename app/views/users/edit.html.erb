@@ -20,9 +20,14 @@
         <% else %>
           <%= image_tag "default-avatar.png", data: { avatar_preview_target: "preview" }, class: "w-24 h-24 rounded-full object-cover" %>
         <% end %>
+        <% if @user.avatar.attached? %>
+          <%= link_to "アイコンを削除", remove_avatar_user_path(@user), <!--remove_avatar_user_path(@user)は削除用パス（処理）-->
+            data: { turbo_method: :delete, turbo_confirm: "削除しますか？" }, 
+            class: "text-xs text-red-500 hover:underline mt-2 block text-center" %>
+        <% end %>
       </div>
 
-      <div>
+      <div> <!--file:はファイル選択ボタン専用スタイル-->
         <%= form.file_field :avatar, 
           data: { action: "change->avatar-preview#preview" },
           class: "block w-full text-sm text-gray-500 
@@ -31,7 +36,7 @@
           file:text-sm file:font-medium 
           file:bg-orange-100 file:text-orange-700 
           hover:file:bg-orange-200" %>
-        <p class="text-xs text-gray-400 mt-2">
+        <p class="text-xs text-gray-400 mt-2 ml-2">
           ※画像を選択すると変更されます
         </p>
       </div>
