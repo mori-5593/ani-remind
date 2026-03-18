@@ -24,14 +24,16 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="d-flex flex-column h-100 bg-amber-100 min-h-screen pt-16">
+  <body class="d-flex flex-column h-100 bg-amber-100 min-h-screen pt-12">
     <%= render 'layouts/header' %>
 
     <div id="flash" class="max-w-7xl mx-auto px-4 mt-4">
       <%= render 'layouts/flash' %>
     </div>
 
+    <main>
       <%= yield %>
+    </main>
 
     <%= render 'layouts/footer' %>
   </body>
