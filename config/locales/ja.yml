@@ -17,3 +17,12 @@ ja:
     attributes:
       post:
         status: "視聴状況"
+      user:
+        password: "パスワード"
+        password_confirmation: "パスワード（確認）"
+    errors:
+      models:
+        user:
+          attributes:
+            password_confirmation:
+              confirmation: "が一致しません"
