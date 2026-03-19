@@ -52,8 +52,8 @@
               <div>
                 <div class="flex justify-between items-center mb-3">
                   <% if item.is_a?(Post) %>
-                    <%= link_to post_path(item), class: "truncate mr-2 hover:text-blue-600 transition", data: { turbo_frame: "_top", turbo_action: "advance" } do %>
-                      <h2 class="text-base font-bold text-gray-800"><%= item.title %></h2>
+                    <%= link_to post_path(item), class: "truncate mr-2 transition", data: { turbo_frame: "_top", turbo_action: "advance" } do %>
+                      <h2 class="text-base font-bold text-gray-800 hover:text-blue-600"><%= item.title %></h2>
                     <% end %>
                   <% else %>
                     <h2 class="text-base font-bold text-gray-800"><%= item.title || "タイトル不明" %></h2>
