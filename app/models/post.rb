@@ -1,6 +1,7 @@
 class Post < ApplicationRecord
   attr_accessor :from
   belongs_to :user
+  has_many :comments dependent: :destroy
 
   validates :title, presence: true
   validates :rating, presence: true, inclusion: { in: 1..5 }, if: -> { watched? }
