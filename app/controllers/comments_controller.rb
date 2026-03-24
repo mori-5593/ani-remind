@@ -17,9 +17,9 @@ class CommentsController < ApplicationController
 
     if comment.user == current_user
       comment.destroy
-      redirect_to @post, notice: "削除しました"
+      redirect_to post_path(post), notice: "削除しました"
     else
-      redirect_to @post, alert: "削除できません"
+      redirect_to post_path(post), alert: "削除できません"
     end
   end
 
