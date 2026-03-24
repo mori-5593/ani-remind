@@ -1,13 +1,13 @@
 class CommentsController < ApplicationController
   def create
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:post_id])
     @comment = @post.comments.build(comment_params)
     @comment.user = current_user
 
     if @comment.save
-      redirect_to edit_post_path, notice: "コメントを投稿しました"
+      redirect_to @post, notice: "コメントを投稿しました"
     else
-      redirect_to edit_post_path, alert: "投稿に失敗しました"
+      redirect_to @post, alert: "投稿に失敗しました"
     end
   end
 
@@ -17,9 +17,15 @@ class CommentsController < ApplicationController
 
     if comment.user == current_user
       comment.destroy
-      redirect_to edit_post_path, notice: "削除しました"
+      redirect_to @post, notice: "削除しました"
     else
-      redirect_to edit_post_path, alert: "削除できません"
+      redirect_to @post, alert: "削除できません"
     end
+  end
+
+  private
+
+  def comment_params
+    params.require(:comment).permit(:content)
   end
 end

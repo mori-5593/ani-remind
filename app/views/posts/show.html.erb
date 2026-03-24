@@ -1,4 +1,4 @@
-<div class="container mx-auto px-4 py-8 max-w-2xl">
+<div class="container mx-auto px-4 py-6 max-w-2xl">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-gray-800">投稿詳細</h1>
     <!-- javascript:history.back() で、ブラウザの「戻る」ボタンと同じ挙動（スクロール位置保持）になる -->
@@ -6,8 +6,9 @@
   </div>
 
   <div class="max-w-4xl mx-auto">
-    <%= render "post", post: @post, is_detail: true %>
-  </div>
+    <!--show_comments: trueでコメント表示-->
+    <%= render partial: "post",
+               locals: { post: @post, is_detail: true, show_comments: true } %>  </div>
 
   <!-- 投稿者とログイン中のユーザーが一致する時だけ表示 -->
   <% if @post.user_id == current_user.id %>
@@ -15,5 +16,12 @@
       <%= link_to "編集する", edit_post_path(@post), class: "bg-yellow-500 text-white px-4 py-2 rounded-md hover: bg-yellow-600 transition-colors" %>
       <%= button_to "削除する", post_path(@post), method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors" %>
     </div>
+  <% end %>
+</div>
+
+<div class="container mx-auto px-4 pb-4 max-w-2xl">
+  <%= form_with(model: [@post, @comment], class: "flex items-center gap-4") do |form| %>
+    <%= form.text_area :content, rows: 2, class: "bg-white shadow-sm rounded-md p-2 w-full" %>
+    <%= form.submit "コメントする", class: "px-6 py-2 bg-orange-400 text-white rounded-md hover:bg-blue-700 cursor-pointer" %>
   <% end %>
 </div>

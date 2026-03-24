@@ -26,3 +26,6 @@ ja:
           attributes:
             password_confirmation:
               confirmation: "が一致しません"
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M"
