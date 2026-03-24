@@ -12,14 +12,14 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    comment = Comment.find(params[:id])
-    post = comment.post
+    @comment = Comment.find(params[:id])
+    #post = comment.post
 
-    if comment.user == current_user
-      comment.destroy
-      redirect_to post_path(post), notice: "削除しました"
-    else
-      redirect_to post_path(post), alert: "削除できません"
+    if @comment.user == current_user
+      @comment.destroy
+      #redirect_to post_path(post), notice: "削除しました"
+    #else
+      #redirect_to post_path(post), alert: "削除できません"
     end
   end
 
