@@ -6,7 +6,8 @@ class UserSessionsController < ApplicationController
   def create
     user = User.authenticate_by(email_address: params[:email_address], password: params[:password])
     if user
-      start_new_session_for user
+      # remember_meにチェックが入っていれば永続クッキーを使用
+      start_new_session_for(user, permanent: params[:remember_me] == "1")
       redirect_to posts_path, notice: "ログインしました"
     else
       flash.now[:alert] = "メールアドレスまたはパスワードが正しくありません"
