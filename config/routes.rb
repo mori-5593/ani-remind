@@ -5,6 +5,9 @@ Rails.application.routes.draw do
       get :want_to_watch
       get :search
     end
+
+    # postのURLの中にcommentのURLも含める
+    resources :comments, only: [ :create, :destroy ]
   end
 
   get "login", to: "user_sessions#new", as: :login

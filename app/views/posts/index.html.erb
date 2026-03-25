@@ -14,7 +14,8 @@
 
   <% if @posts.any? %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <%= render partial: 'post', collection: @posts, as: :post %>
+      <!--show_comments: falseでコメントを非表示-->
+      <%= render partial: 'post', collection: @posts, as: :post, locals: { show_comments: false } %>
     </div>
   <% else %>
     <div class="text-center py-10">
