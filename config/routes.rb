@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       get :search
     end
 
-    #postのURLの中にcommentのURLも含める
+    # postのURLの中にcommentのURLも含める
     resources :comments, only: [ :create, :destroy ]
   end
 

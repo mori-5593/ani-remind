@@ -42,9 +42,9 @@
 
 
   <% if show_comments %><!--false or true-->
-    <% post.comments.each do |comment| %>
-      <%= render "comments/comment", comment: comment %>
-    <% end %>
+    <div id="comments">
+      <%= render post.comments %>
+    </div>
   <% end %>
   </div>
 </div>

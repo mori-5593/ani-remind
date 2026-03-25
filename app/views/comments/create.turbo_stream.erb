@@ -1,0 +1,11 @@
+<%= turbo_stream.append "comments" do %>
+  <%= render @comment %>
+<% end %>
+
+<%= turbo_stream.replace "comment_form" do %>
+  <%= render "comments/form", post: @post, comment: Comment.new %>
+<% end %>
+
+<%= turbo_stream.replace "flash" do %>
+  <%= render "layouts/flash" %>
+<% end %>

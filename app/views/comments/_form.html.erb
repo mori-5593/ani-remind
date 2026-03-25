@@ -1,0 +1,8 @@
+<div id="comment_form">
+  <div class="container mx-auto px-4 pb-4 max-w-2xl">
+    <%= form_with(model: [post, comment], class: "flex items-center gap-4") do |form| %>
+      <%= form.text_area :content, rows: 2, class: "bg-white shadow-sm rounded-md p-2 w-full" %>
+      <%= form.submit "コメントする", class: "px-6 py-2 bg-orange-400 text-white rounded-md hover:bg-blue-700 cursor-pointer" %>
+    <% end %>
+  </div>
+</div>
