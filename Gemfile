@@ -48,6 +48,8 @@ gem "dotenv-rails", group: [ :development, :test ] # APIキーを隠すための
 gem "ransack"
 gem "pagy", "~> 8.0"
 gem "heroicon-rails"
+gem "omniauth"
+gem "omniauth-google-oauth2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
