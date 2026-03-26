@@ -1,5 +1,5 @@
 class UserSessionsController < ApplicationController
-  allow_unauthenticated_access only: %i[ new create ] # 未ログイン時にアクセス可能
+  allow_unauthenticated_access only: %i[ new create google_auth ] # 未ログイン時にアクセス可能
   def new
   end
 
@@ -18,5 +18,20 @@ class UserSessionsController < ApplicationController
   def destroy
     terminate_session
     redirect_to root_path, notice: "ログアウトしました"
+  end
+
+  def google_auth
+    auth = request.env["omniauth.auth"]
+    user = User.find_or_create_by(email_address: auth.info.email) do |u|
+      u.name = auth.info.name
+      u.password = SecureRandom.hex(10)
+    end
+
+    if user.persisted?
+      start_new_session_for(user)
+      redirect_to posts_path, notice: "Googleアカウントでログインしました"
+    else
+      redirect_to login_path, alert: "Googleログインに失敗しました"
+    end
   end
 end

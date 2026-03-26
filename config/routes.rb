@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  get '/auth/:provider/callback', to: 'user_sessions#google_auth'
-  get '/auth/failure', to: redirect('/')
-  
+  get "/auth/:provider/callback", to: "user_sessions#google_auth"
+  get "/auth/failure", to: redirect("/")
+
   resources :posts do
     collection do
       get :watched
