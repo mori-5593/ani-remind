@@ -6,6 +6,12 @@ Rails.application.config.middleware.use OmniAuth::Builder do
             scope: "email,profile",
             prompt: "select_account"
            }
+  provider :line,
+           ENV["LINE_CHANNEL_ID"],
+           ENV["LINE_CHANNEL_SECRET"],
+           {
+            scope: "profile openid email"
+           }
 end
 
 OmniAuth.config.allowed_request_methods = [ :get, :post ]

@@ -20,7 +20,7 @@ class UserSessionsController < ApplicationController
     redirect_to root_path, notice: "ログアウトしました"
   end
 
-  def google_auth
+  def oauth
     auth = request.env["omniauth.auth"]
 
     # provider と uid でユーザーを検索
@@ -28,7 +28,12 @@ class UserSessionsController < ApplicationController
 
     # 見つからない場合はメールアドレスで検索（既存のメール登録ユーザーと連携）
     if user.nil?
-      user = User.find_or_initialize_by(email_address: auth.info.email)
+      email = auth.info.email
+
+      # emailがない場合（Line対策）
+      email ||= "#{auth.uid}@line-user.com"
+
+      user = User.find_or_initialize_by(email_address: email)
       user.provider = auth.provider
       user.uid = auth.uid
       user.name ||= auth.info.name
@@ -39,9 +44,9 @@ class UserSessionsController < ApplicationController
 
     if user.persisted?
       start_new_session_for(user)
-      redirect_to posts_path, notice: "Googleアカウントでログインしました"
+      redirect_to posts_path, notice: "#{auth.provider}でログインしました"
     else
-      redirect_to login_path, alert: "Googleログインに失敗しました"
+      redirect_to login_path, alert: "ログインに失敗しました"
     end
   end
 end

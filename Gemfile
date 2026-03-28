@@ -50,6 +50,7 @@ gem "pagy", "~> 8.0"
 gem "heroicon-rails"
 gem "omniauth"
 gem "omniauth-google-oauth2"
+gem "omniauth-line"
 gem "omniauth-rails_csrf_protection"
 
 group :development, :test do
