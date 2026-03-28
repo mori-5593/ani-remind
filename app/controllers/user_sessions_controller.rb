@@ -1,5 +1,5 @@
 class UserSessionsController < ApplicationController
-  allow_unauthenticated_access only: %i[ new create google_auth ] # 未ログイン時にアクセス可能
+  allow_unauthenticated_access only: %i[ new create oauth ] # 未ログイン時にアクセス可能
   def new
   end
 
@@ -28,17 +28,28 @@ class UserSessionsController < ApplicationController
 
     # 見つからない場合はメールアドレスで検索（既存のメール登録ユーザーと連携）
     if user.nil?
-      email = auth.info.email
+      # emailがある場合のみ既存ユーザーと紐付け
+      if auth.info.email.present?
+        user = User.find_by(email_address: auth.info.email)
+      end
 
-      # emailがない場合（Line対策）
-      email ||= "#{auth.uid}@line-user.com"
+      # それでもいなければ新規作成
+      if user.nil?
+        user = User.new(
+          provider: auth.provider,
+          uid: auth.uid,
+          email_address: auth.info.email || "#{auth.uid}@example.com",
+          name: auth.info.name,
+          password: SecureRandom.hex(10)
+        )
+      else
+        # 既存ユーザーにprovider情報を紐付け
+        user.update(
+          provider: auth.provider,
+          uid: auth.uid
+        )
+      end
 
-      user = User.find_or_initialize_by(email_address: email)
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.name ||= auth.info.name
-      # パスワードが未設定（新規登録）の場合のみランダムなパスワードを設定
-      user.password = SecureRandom.hex(10) if user.password_digest.nil?
       user.save!
     end
 

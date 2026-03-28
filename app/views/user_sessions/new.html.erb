@@ -30,6 +30,9 @@
     </p>
 
     <div class="border-t border-gray-400"></div>
-    <%= button_to "Googleでログイン", "/auth/google_oauth2", method: :post, data: { turbo: false }, class: "bg-indigo-500 rounded-lg shadow-md text-white" %>
+    <div class="flex justify-center py-4">
+      <%= button_to "Googleでログイン", "/auth/google_oauth2", method: :post, data: { turbo: false }, class: "bg-orange-500 rounded-lg shadow-md px-2 py-1 text-white" %>
+      <%= button_to "Lineでログイン", "/auth/line", method: :post, data: { turbo: false }, class: "bg-green-500 rounded-lg shadow-md px-2 py-1 text-white" %>
+    </div>
   </div>
 </div>
