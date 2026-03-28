@@ -4,7 +4,7 @@
   </div>
 
   <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-sm p-8 bg-white shadow-md rounded-lg">
-    <%= form_with model: @user, class: "space-y-6" do |form| %>
+    <%= form_with model: @user, class: "space-y-4" do |form| %>
       <% if @user.errors.any? %>
         <div style="color: red">
           <h2><%= pluralize(@user.errors.count, "個のエラー") %>により登録できませんでした：</h2>
@@ -43,8 +43,20 @@
       </div>
     <% end %>
 
-    <p class="mt-10 text-center text-sm text-gray-500">すでにアカウントをお持ちですか？<br>
+    <p class="mt-4 text-center text-sm text-gray-500">すでにアカウントをお持ちですか？<br>
       <%= link_to "ログインはこちら", login_path, class: "font-semibold leading-6 text-indigo-600 hover:text-indigo-500" %>
     </p>
+
+    <div class="border-t border-gray-400 mt-4"></div>
+    <div class="flex flex-col items-center gap-4 py-6">
+      <%= button_to "/auth/google_oauth2", method: :post, data: { turbo: false }, class: "flex items-center justify-center gap-3 w-72 py-3 bg-white border border-gray-300 rounded-xl shadow-sm hover:shadow-md transition" do %>
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5">
+        <span class="text-gray-700 font-medium">Googleでログイン</span>
+      <% end %>
+      <%= button_to "/auth/line", method: :post, data: { turbo: false }, class: "flex items-center justify-center gap-3 w-72 px-4 py-3 bg-green-500 text-white rounded-xl shadow-sm hover:shadow-md transition" do %>
+        <%= image_tag "line_icon.png", class: "w-7 h-7" %>
+        <span class="font-medium">LINEでログイン</span>
+      <% end %>
+    </div>
   </div>
 </div>
