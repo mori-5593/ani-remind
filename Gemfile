@@ -46,7 +46,7 @@ gem "tailwindcss-rails"
 gem "faraday"
 gem "dotenv-rails", group: [ :development, :test ] # APIキーを隠すためのgem
 gem "ransack"
-gem "pagy", "~> 8.0"
+gem "pagy", "~> 43.4"
 gem "heroicon-rails"
 gem "omniauth"
 gem "omniauth-google-oauth2"
