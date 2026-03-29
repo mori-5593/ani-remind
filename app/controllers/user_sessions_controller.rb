@@ -1,5 +1,5 @@
 class UserSessionsController < ApplicationController
-  allow_unauthenticated_access only: %i[ new create google_auth ] # 未ログイン時にアクセス可能
+  allow_unauthenticated_access only: %i[ new create oauth ] # 未ログイン時にアクセス可能
   def new
   end
 
@@ -20,7 +20,7 @@ class UserSessionsController < ApplicationController
     redirect_to root_path, notice: "ログアウトしました"
   end
 
-  def google_auth
+  def oauth
     auth = request.env["omniauth.auth"]
 
     # provider と uid でユーザーを検索
@@ -28,20 +28,36 @@ class UserSessionsController < ApplicationController
 
     # 見つからない場合はメールアドレスで検索（既存のメール登録ユーザーと連携）
     if user.nil?
-      user = User.find_or_initialize_by(email_address: auth.info.email)
-      user.provider = auth.provider
-      user.uid = auth.uid
-      user.name ||= auth.info.name
-      # パスワードが未設定（新規登録）の場合のみランダムなパスワードを設定
-      user.password = SecureRandom.hex(10) if user.password_digest.nil?
+      # emailがある場合のみ既存ユーザーと紐付け
+      if auth.info.email.present?
+        user = User.find_by(email_address: auth.info.email)
+      end
+
+      # それでもいなければ新規作成
+      if user.nil?
+        user = User.new(
+          provider: auth.provider,
+          uid: auth.uid,
+          email_address: auth.info.email || "#{auth.uid}@example.com",
+          name: auth.info.name,
+          password: SecureRandom.hex(10)
+        )
+      else
+        # 既存ユーザーにprovider情報を紐付け
+        user.update(
+          provider: auth.provider,
+          uid: auth.uid
+        )
+      end
+
       user.save!
     end
 
     if user.persisted?
       start_new_session_for(user)
-      redirect_to posts_path, notice: "Googleアカウントでログインしました"
+      redirect_to posts_path, notice: "#{auth.provider}でログインしました"
     else
-      redirect_to login_path, alert: "Googleログインに失敗しました"
+      redirect_to login_path, alert: "ログインに失敗しました"
     end
   end
 end

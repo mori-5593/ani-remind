@@ -12,4 +12,8 @@ class User < ApplicationRecord
   # 値がある場合presence: trueによるバリデーションエラーが発生しない
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+
+  def omniauth_user?
+    provider.present?
+  end
 end

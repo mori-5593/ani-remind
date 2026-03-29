@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.1.2"
+gem "rails", "~> 8.1.2.1"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 # Use postgresql as the database for Active Record
@@ -50,6 +50,7 @@ gem "pagy", "~> 8.0"
 gem "heroicon-rails"
 gem "omniauth"
 gem "omniauth-google-oauth2"
+gem "omniauth-line"
 gem "omniauth-rails_csrf_protection"
 
 group :development, :test do
