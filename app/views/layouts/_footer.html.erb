@@ -1,4 +1,8 @@
 <footer class="bg-white border-gray-50 border-t border-gray-200 mx-auto py-6">
+  <div class="flex justify-between">
+    <%= link_to "プライバシーポリシー", privacy_path, data: { turbo: false }, class: "text-gray-500 text-sm" %>
+    <%= link_to "利用規約", terms_path, data: { turbo: false }, class: "text-gray-500 text-sm" %>
+  </div>
   <div class="max-w-7xl mx-auto px-4 text-center">
     <span class="text-gray-500 text-sm">&copy; 2026 AniRemind.</span>
   </div>
