@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "privacy", to: "pages#privacy"
+  get "terms", to: "pages#terms"
   get "/auth/:provider/callback", to: "user_sessions#oauth"
   get "/auth/failure", to: redirect("/")
 

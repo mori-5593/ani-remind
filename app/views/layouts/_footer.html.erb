@@ -1,4 +1,9 @@
 <footer class="bg-white border-gray-50 border-t border-gray-200 mx-auto py-6">
+  <div class="flex justify-center gap-6">
+    <%= link_to "プライバシーポリシー", privacy_path, data: { turbo: false }, class: "text-gray-500 text-sm" %>
+    <%= link_to "利用規約", terms_path, data: { turbo: false }, class: "text-gray-500 text-sm" %>
+    <%= link_to "お問い合わせ", "https://docs.google.com/forms/d/e/1FAIpQLScZlTX5JgCNPw-Re9h0y7u_xOKV7Sbak4MD9-tFdgKppevqbA/viewform?usp=publish-editor", target: "_blank", rel: "noopener", class: "text-gray-500 text-sm" %>
+  </div>
   <div class="max-w-7xl mx-auto px-4 text-center">
     <span class="text-gray-500 text-sm">&copy; 2026 AniRemind.</span>
   </div>
