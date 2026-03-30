@@ -6,6 +6,6 @@
   <%= render "comments/form", post: @post, comment: Comment.new %>
 <% end %>
 
-<%= turbo_stream.replace "flash" do %>
+<%= turbo_stream.update "flash" do %>
   <%= render "layouts/flash" %>
 <% end %>
