@@ -24,7 +24,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="d-flex flex-column h-100 bg-amber-100 min-h-screen pt-12">
+  <body class="<%= current_page?(root_path) ? '' : 'bg-amber-100' %> d-flex flex-column h-100 min-h-screen pt-12">
     <%= render 'layouts/header' %>
 
     <div class="max-w-2xl mx-auto px-4 pt-10">
@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <main class="pt-10">
+    <main>
       <%= yield %>
     </main>
 
