@@ -56,10 +56,10 @@ class UserSessionsController < ApplicationController
     if user.persisted?
       start_new_session_for(user)
       provider_name = case auth.provider
-                      when "google_oauth2" then "Googleアカウント"
-                      when "line" then "LINEアカウント"
-                      else auth.provider
-                      end
+      when "google_oauth2" then "Googleアカウント"
+      when "line" then "LINEアカウント"
+      else auth.provider
+      end
       redirect_to posts_path, notice: "#{provider_name}でログインしました"
     else
       redirect_to login_path, alert: "ログインに失敗しました"
