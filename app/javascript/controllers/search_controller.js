@@ -36,7 +36,10 @@ export default class extends Controller {
             this.resultsTarget.innerHTML = '<div class="p-2 text-gray-500 text-sm">見つかりませんでした</div>'
           } else {
             this.resultsTarget.innerHTML = works.map(work => {
-              const imageUrl = work.images?.recommended_url || ''
+              const imageUrl = work.images?.facebook?.og_image_url || 
+                             work.images?.recommended_url || 
+                             work.images?.twitter?.original_avatar_url || 
+                             ''
               const imgTag = imageUrl ? `<img src="${imageUrl}" class="w-10 h-10 object-cover mr-2 rounded">` : ''
               const safeTitle = work.title.replace(/'/g, "\\'")
 
