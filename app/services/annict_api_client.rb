@@ -58,13 +58,26 @@ class AnnictApiClient
   def format_image_url(url)
     return nil if url.blank?
 
-    # image.annict.com の証明書エラー対策としてプロキシを経由させる
-    if url.include?("image.annict.com")
-      # weserv.nl プロキシを使用（httpでアクセスして証明書エラーを回避し、プロキシ側でhttps化する）
-      return "https://images.weserv.nl/?url=#{url.gsub("https://", "http://")}"
-    end
+    # すでにプロキシ済みの場合は何もしない
+    return url if url.include?("images.weserv.nl")
 
-    # http の場合は https に変換（Mixed Content対策）
-    url.gsub(/^http:\/\//, "https://")
+    # 信頼できる大手CDNドメインはプロキシを通さない
+    trusted_domains = [
+      "pbs.twimg.com",    # Twitter/X
+      "abs.twimg.com",
+      "video.twimg.com",
+      "fbcdn.net",        # Facebook
+      "external.fxxx.fbcdn.net",
+      "cloudinary.com",   # Cloudinary (Annict自身も使っている)
+      "res.cloudinary.com"
+    ]
+
+    return url.gsub(/^http:\/\//, "https://") if trusted_domains.any? { |domain| url.include?(domain) }
+
+    # それ以外の外部ドメイン（アニメ公式サイト、image.annict.comなど）は
+    # SSL証明書エラーやMixed Contentエラーが多いため、プロキシを経由させる
+    # http/httpsを問わずプロキシに渡す（プロキシ側で適切に処理される）
+    # 渡す際はURLからプロトコルを除去するか、gsubでhttpに寄せて証明書エラーを回避する
+    "https://images.weserv.nl/?url=#{url.gsub("https://", "http://")}"
   end
 end
