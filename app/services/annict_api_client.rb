@@ -34,7 +34,9 @@ class AnnictApiClient
 
     {
       title: work["title"],
-      image_url: work.dig("images", "facebook", "og_image_url")
+      image_url: work.dig("images", "facebook", "og_image_url").presence ||
+                 work.dig("images", "recommended_url").presence ||
+                 work.dig("images", "twitter", "original_avatar_url").presence
     }
   end
 end
