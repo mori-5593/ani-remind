@@ -2,7 +2,7 @@ module Authentication
   extend ActiveSupport::Concern
 
   included do
-    before_action :require_authentication #全アクションの前にログインしているか確認
+    before_action :require_authentication # 全アクションの前にログインしているか確認
     helper_method :authenticated?
   end
 
@@ -49,8 +49,8 @@ module Authentication
       end
     end
 
-    def terminate_session #セッションの削除メソッド
-      Current.session.destroy #セッション情報を削除,Currentは今操作してるユーザー
-      cookies.delete(:session_id) #クッキーの中のセッションIDを削除
+    def terminate_session # セッションの削除メソッド
+      Current.session.destroy # セッション情報を削除,Currentは今操作してるユーザー
+      cookies.delete(:session_id) # クッキーの中のセッションIDを削除
     end
 end

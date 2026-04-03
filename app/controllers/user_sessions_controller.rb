@@ -4,7 +4,7 @@ class UserSessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate_by(email_address: params[:email_address], password: params[:password]) #ユーザーを探し、パスワードが合っているかも確認
+    user = User.authenticate_by(email_address: params[:email_address], password: params[:password]) # ユーザーを探し、パスワードが合っているかも確認
     if user
       # remember_meにチェックが入っていれば永続クッキーを使用
       start_new_session_for(user, permanent: params[:remember_me] == "1")
@@ -16,12 +16,12 @@ class UserSessionsController < ApplicationController
   end
 
   def destroy
-    terminate_session #セッション終了、内容はauthentication.rbに定義
+    terminate_session # セッション終了、内容はauthentication.rbに定義
     redirect_to root_path, notice: "ログアウトしました"
   end
 
   def oauth
-    auth = request.env["omniauth.auth"] #Googleから返ってきたデータを代入
+    auth = request.env["omniauth.auth"] # Googleから返ってきたデータを代入
 
     # provider と uid でユーザーを検索
     user = User.find_by(provider: auth.provider, uid: auth.uid)
